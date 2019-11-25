@@ -1,8 +1,7 @@
 const connect = require('../database');
 
-
-getAllAccountsQuery = () => {
-    const query = 'SELECT *FROM account';
+getAllCustomersQuery = () => {
+    const query = 'SELECT *FROM customer';
     return new Promise((resolve, reject) => {
         connect.query(query, (error, results, fields) => {
             if (error) {
@@ -17,5 +16,5 @@ getAllAccountsQuery = () => {
 
 
 module.exports = {
-    getAllAccountsQuery
+    getAllCustomersQuery
 }

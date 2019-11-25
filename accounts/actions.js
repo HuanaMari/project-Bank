@@ -13,5 +13,4 @@ getAllAccounts =async(req,res)=>{
 
 module.exports = {
     getAllAccounts
-
 }
