@@ -13,8 +13,25 @@ getAllCustomersQuery = () => {
         });
     });
 };
+createCustomerQuery = (customer, password) => {
+    const query = 'INSERT INTO customer(name, surname, city, adress, accountId, email, username, password)\
+    VALUES(?,?,?,?,?,?,?,?)';
+    return new Promise((resolve, reject) => {
+        connect.query(query, [customer.name, customer.surname, customer.city, customer.adress, customer.accountId
+            , customer.email, customer.username, password], (error, results, fields) => {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    resolve(results);
+                }
+            })
+    })
+
+}
 
 
 module.exports = {
-    getAllCustomersQuery
+    getAllCustomersQuery,
+    createCustomerQuery
 }

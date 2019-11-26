@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 app.use(middleware.logger);
 
-app.use(appRouter);
+app.use('/mk-bank',appRouter);
 
 app.use(middleware.erroRoute);
 app.use(middleware.errHandler);

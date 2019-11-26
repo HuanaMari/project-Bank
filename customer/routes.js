@@ -1,8 +1,11 @@
 const express = require('express');
-const {getAllCustomers} = require('./action');
+const { getAllCustomers,
+    createCustomer
+} = require('./action');
 
 let routes = express.Router();
 
-routes.get('/customer',getAllCustomers);
+routes.get('/customer', getAllCustomers);
+routes.post('/customer',createCustomer);
 
 module.exports = routes
