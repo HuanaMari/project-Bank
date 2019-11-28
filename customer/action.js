@@ -11,6 +11,7 @@ var bcrypt = require('bcryptjs');
 getAllCustomers = async (req, res) => {
     try {
         let allCus = await getAllCustomersQuery();
+        console.log(allCus)
         res.status(200).send(allCus);
     }
     catch (error) {

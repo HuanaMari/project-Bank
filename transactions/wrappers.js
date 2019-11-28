@@ -1,7 +1,7 @@
 const connect = require('../database');
 
-getAllLoansQuery = () => {
-    const query = 'SELECT *FROM loan';
+sumTransactionsQuery = () => {
+    const query = 'SELECT SUM(transaction_amount) AS TotalTransaction_amount from transaction; '
     return new Promise((resolve, reject) => {
         connect.query(query, (error, results, fields) => {
             if (error) {
@@ -14,13 +14,10 @@ getAllLoansQuery = () => {
     });
 };
 
-
-getTransactionsForLoanQuery = (id) => {
-    const query = 'SELECT loan.loan_id,loan.amount,SUM(transaction.transaction_amount)AS TotalTransaction_amount ,\
-     (loan.amount- SUM(transaction.transaction_amount )) as "Remains" FROM loan\
-      INNER JOIN transaction ON loan.accountId=transaction.accountId where loan.accountId=?;';
+insertTransactionQuery = () => {
+    const query = 'SELECT SUM(transaction_amount) AS TotalTransaction_amount from transaction; '
     return new Promise((resolve, reject) => {
-        connect.query(query, [id], (error, results, fields) => {
+        connect.query(query, (error, results, fields) => {
             if (error) {
                 reject(error);
             }
@@ -29,9 +26,8 @@ getTransactionsForLoanQuery = (id) => {
             }
         });
     });
-}
-
+};
 module.exports = {
-    getAllLoansQuery,
-    getTransactionsForLoanQuery
+    sumTransactionsQuery
+
 }

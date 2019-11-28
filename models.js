@@ -13,12 +13,11 @@ class Customer {
             this.surname = surname,
             this.city = city,
             this.adress = adress,
-            this.accountId = [],
+            this.accountId = accountId,
             this.email = email,
             this.username = username,
             this.password = password
     }
-    
 }
 class Loan {
     constructor(borrowedOn, amount, accountId, customerId, employeeId) {

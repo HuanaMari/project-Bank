@@ -1,0 +1,26 @@
+INSERT INTO branch (name,city,assets) VALUES 
+('Westpack','Sydney ',652898742),
+('Westpack','Melbourne',574228365);
+
+select * from branch;
+
+
+INSERT INTO account (account_number,createdOn,balance,branchId)
+VALUES 
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),254127,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),78622,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),18450,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),578292,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),1458601,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),69020,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),54000,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),3272533,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),900,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),12400,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),172400,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),432750,1),
+(FLOOR(30012346789 + RAND() * 3000000 ),now(),627850,1);
+
+
+
+
