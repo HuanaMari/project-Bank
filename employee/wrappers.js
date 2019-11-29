@@ -14,7 +14,6 @@ getAllEmployeesQuery = () => {
     });
 };
 
-
 module.exports = {
     getAllEmployeesQuery
 }

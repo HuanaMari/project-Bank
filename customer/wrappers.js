@@ -28,8 +28,7 @@ createCustomerQuery = (customer, password) => {
             })
     })
 
-}
-
+};
 
 module.exports = {
     getAllCustomersQuery,

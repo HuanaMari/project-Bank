@@ -1,10 +1,8 @@
 const {
     getAllCustomersQuery,
-    createCustomerQuery
-} = require('./wrappers');
+    createCustomerQuery} = require('./wrappers');
 const {
-    emailValidator
-} = require('../helpers');
+    emailValidator} = require('../helpers');
 var bcrypt = require('bcryptjs');
 
 
@@ -19,7 +17,6 @@ getAllCustomers = async (req, res) => {
 
     }
 };
-
 createCustomer = async (req, res,next) => {
     const customerRequest = req.body
     let isValid = emailValidator(req.body.email);

@@ -1,5 +1,5 @@
 const connect = require('../database');
-3
+
 getAllBranchQuery = () => {
     const query = 'SELECT *FROM branch';
     return new Promise((resolve, reject) => {
@@ -13,8 +13,6 @@ getAllBranchQuery = () => {
         });
     });
 };
-
-
 module.exports = {
     getAllBranchQuery
 }

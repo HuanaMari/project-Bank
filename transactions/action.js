@@ -1,10 +1,10 @@
 const { sumTransactionsQuery,
     insertTransactionQuery,
     allTransactionsQuery
-   } = require('./wrappers');
+} = require('./wrappers');
 
 
-   allTransactions = async (req, res, next) => {
+allTransactions = async (req, res, next) => {
     try {
         let sum = await allTransactionsQuery();
         res.status(200).send(sum);
@@ -13,7 +13,6 @@ const { sumTransactionsQuery,
         res.status(500).send(error.message);
     }
 };
-
 sumTransactions = async (req, res, next) => {
     try {
         let sum = await sumTransactionsQuery();
@@ -34,12 +33,8 @@ insertTransaction = async (req, res, next) => {
     }
 };
 
-
-
-
-
-    module.exports = {
-        allTransactions,
-        sumTransactions,
-        insertTransaction
-    }
+module.exports = {
+    allTransactions,
+    sumTransactions,
+    insertTransaction
+}

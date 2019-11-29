@@ -14,7 +14,6 @@ getAllAccountsQuery = () => {
         });
     });
 };
-
 getSpecificAccountByBalanceQuery = (balance) => {
     const query = 'SELECT * FROM account JOIN customer ON account_id = customer.accountId\
      JOIN loan ON customer.customer_id = loan.customerId WHERE account.balance < ?;';
@@ -29,12 +28,6 @@ getSpecificAccountByBalanceQuery = (balance) => {
         });
     });
 };
-
-
-
-
-
-
 module.exports = {
     getAllAccountsQuery,
     getSpecificAccountByBalanceQuery

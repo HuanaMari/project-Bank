@@ -10,7 +10,6 @@ getAllBranch =async(req,res)=>{
 
     }
 };
-
 module.exports = {
     getAllBranch
 }
