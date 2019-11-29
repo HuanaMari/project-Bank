@@ -1,10 +1,14 @@
 const express = require('express');
-const {sumTransactions,
+const {allTransactions,
+   sumTransactions,
+   insertTransaction
    } = require('./action');
 
 let routes = express.Router();
 
-routes.get('/transactions', sumTransactions);
+routes.get('/transactions', allTransactions);
+routes.get('/transactions/sum', sumTransactions);
+routes.post('/transactions',insertTransaction);
 
 
 module.exports = routes
