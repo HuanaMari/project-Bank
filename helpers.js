@@ -9,6 +9,6 @@ emailValidator = (email) => {
     }
 };
 
-module.exports={
+module.exports = {
     emailValidator
 }

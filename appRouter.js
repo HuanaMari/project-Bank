@@ -14,6 +14,6 @@ appRouter.use(brchRoutes);
 appRouter.use(cusRoutes);
 appRouter.use(emplRoutes);
 appRouter.use(loanRoutes);
-appRouter.use(transactions)
+appRouter.use(transactions);
 
 module.exports = appRouter

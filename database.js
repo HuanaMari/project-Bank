@@ -10,7 +10,7 @@ var connect = mySql.createConnection({
 
 connect.connect((error)=>{
     if(error){
-        console.log('Problem with DB connection:' + error.message)
+        console.log('Problem with DataBase connection:' + error.message)
     }
     else{
         console.log('DataBase connected!')
