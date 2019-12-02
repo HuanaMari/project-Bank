@@ -1,8 +1,8 @@
 const {
     getAllCustomersQuery,
     createCustomerQuery,
-    getCustomerByEmailQuery } = require('./wrappers');
-
+    getCustomerByEmailQuery,
+    updatingCustomerDataQuery } = require('./wrappers');
 var bcrypt = require('bcryptjs');
 
 
@@ -14,7 +14,6 @@ getAllCustomers = async (req, res) => {
     }
     catch (error) {
         res.status(500).send(error.message);
-
     }
 };
 createCustomer = async (req, res, next) => {
@@ -27,6 +26,17 @@ createCustomer = async (req, res, next) => {
         res.status(500).send(error.message)
     }
     // }
+};
+updateCustomer = async (req, res, next) => {
+    let customerReq = req.body
+    let customerId= req.params.customer_id
+ try{
+     var customer = await updatingCustomerDataQuery(customerId,customerReq)
+     res.status(202).send('updated')
+ }
+ catch(error){
+     res.status(500).send(error.message)
+ }
 };
 loginCustomer = async (req, res, next) => {
     const email = req.body.email;
@@ -50,5 +60,6 @@ loginCustomer = async (req, res, next) => {
 
 module.exports = {
     getAllCustomers,
-    createCustomer
+    createCustomer,
+    updateCustomer
 }
