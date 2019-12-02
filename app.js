@@ -18,5 +18,5 @@ app.use(middleware.errHandler);
 
 var port = process.env.PORT || 3060
 app.listen(port, () => {
-  console.log(`API is listenig on port ${port}!`)
+  console.log(`Service up and listenig on port ${port}!`)
 });

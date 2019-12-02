@@ -27,7 +27,7 @@ class Loan {
             this.customerId = customerId,
             this.employeeId = employeeId
     }
-}
+};
 
 module.exports = {
     Account,

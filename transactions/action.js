@@ -23,13 +23,26 @@ sumTransactions = async (req, res, next) => {
     }
 };
 insertTransaction = async (req, res, next) => {
-    try {
-        let amount = await insertTransactionQuery(req.body);
-        console.log(req.body)
-        res.status(200).send('Inserted');
+    let amount = req.body.transaction_amount;
+    if (amount === 0) {
+        var error = new Error('Transaction cannot be 0');
+        error.status = 402;
+        next(error);
+    }else if(req.body.transaction_madeOn != null){
+        var error = new Error('You cannot add time!');
+        error.status = 402;
+        next(error);
     }
-    catch (error) {
-        res.status(500).send(error.message);
+     else {
+        try {
+            await insertTransactionQuery(req.body);
+            res.status(200).send(`Inserted ${req.body.transaction_amount} $`);
+        }
+        catch (error) {
+            res.status(500).json({
+                error: 'account does not exist'
+            })
+        }
     }
 };
 

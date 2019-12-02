@@ -11,9 +11,9 @@ getAllLoans =async(req,res)=>{
 
     }
 };
-getTransactionsForLoan= async (req, res, next) => {
+sumTransactionsForLoan= async (req, res, next) => {
     try {
-        let total = await getTransactionsForLoanQuery(req.params.id);
+        let total = await sumOfTransactionsForLoanQuery(req.params.id);
         res.status(200).send(total);
     }
     catch (error) {
@@ -22,5 +22,5 @@ getTransactionsForLoan= async (req, res, next) => {
 };
 module.exports = {
     getAllLoans,
-    getTransactionsForLoan
+    sumTransactionsForLoan
 }

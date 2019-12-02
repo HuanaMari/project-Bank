@@ -13,7 +13,7 @@ getAllLoansQuery = () => {
         });
     });
 };
-getTransactionsForLoanQuery = (id) => {
+sumOfTransactionsForLoanQuery = (id) => {
     const query = 'SELECT customer.customer_id,customer.name,customer.surname,customer.accountId,account.account_number,\
     loan.loan_id,loan.amount,SUM(transaction.transaction_amount) AS TotalTransaction_amount,\
     (loan.amount- SUM(transaction.transaction_amount)) as "Remains" from customer\
@@ -34,5 +34,5 @@ getTransactionsForLoanQuery = (id) => {
 }
 module.exports = {
     getAllLoansQuery,
-    getTransactionsForLoanQuery
+    sumOfTransactionsForLoanQuery
 }
