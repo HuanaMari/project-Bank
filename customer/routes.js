@@ -8,7 +8,7 @@ const { getAllCustomers,
 let routes = express.Router();
 
 routes.get('/customer', getAllCustomers);
-routes.post('/customer', emailValidator, createCustomer);
+routes.post('/customer',emailValidator, createCustomer);
 routes.put('/customer/:customer_id',emailValidator, updateCustomer);
 
 

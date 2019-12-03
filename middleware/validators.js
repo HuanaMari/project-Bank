@@ -12,26 +12,3 @@ emailValidator = (req,res,next) => {
 module.exports = {
     emailValidator
 }
-
-
-// validateDevice = (req, res, next) => {
-//     let deviceName = req.body.Name;
-
-//     if (deviceName.length > 20) {
-//         var error = new Error("Device name length must be less than 20 chars!");
-//         error.status = 400;
-//         next(error);
-//     }
-
-//     newDeviceName = deviceName.replace(/\s+/g, '-');
-//     const lettersAndDashes = /^[A-Za-z-]+$/;
-
-//     if (!newDeviceName.match(lettersAndDashes)) {
-//         var error = new Error("Device name must contains only letters and dashes!");
-//         error.status = 400;
-//         next(error);
-//     }
-    
-//     req.body.Name = newDeviceName;
-//     next();
-// }

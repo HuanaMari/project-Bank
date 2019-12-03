@@ -18,21 +18,24 @@ getAllCustomers = async (req, res) => {
 };
 createCustomer = async (req, res, next) => {
     const customerRequest = req.body
+    const pass = req.body.password
     try {
-        const passHash = bcrypt.hashSync(customerRequest.password, 10)
+        const passHash = bcrypt.hashSync(pass, 5)
+        console.log(passHash)
         await createCustomerQuery(customerRequest, passHash)
         res.status(200).send('Customer has been created');
     } catch (error) {
         res.status(500).send(error.message)
     }
-    // }
 };
 updateCustomer = async (req, res, next) => {
     let customerReq = req.body
     let customerId= req.params.customer_id
+    const pass = req.body.password
  try{
-     var customer = await updatingCustomerDataQuery(customerId,customerReq)
-     res.status(202).send('updated')
+    const passHash = bcrypt.hashSync(pass, 5)
+     var customer = await updatingCustomerDataQuery(customerId,customerReq,passHash)
+     res.status(202).send('Customers data has been updated')
  }
  catch(error){
      res.status(500).send(error.message)

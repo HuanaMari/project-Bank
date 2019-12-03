@@ -15,10 +15,9 @@ getAllCustomersQuery = () => {
 };
 createCustomerQuery = (customer, password) => {
     const query = 'INSERT INTO customer(name, surname, city, adress, email, username, password)\
-    VALUES(?,?,?,?,?,?,?)';
+    VALUES(?,?,?,?,?,?,?';
     return new Promise((resolve, reject) => {
-        connect.query(query, [customer.name, customer.surname, customer.city, customer.adress, customer.accountId
-            , customer.email, customer.username, password], (error, results, fields) => {
+        connect.query(query, [customer.name, customer.surname, customer.city, customer.adress,customer.email, customer.username, password], (error, results, fields) => {
                 if (error) {
                     reject(error);
                 }
@@ -27,7 +26,6 @@ createCustomerQuery = (customer, password) => {
                 }
             })
     })
-
 };
 getCustomerByEmailQuery = (email) => {
     const query = 'SELECT * FROM customer WHERE email = ?'
@@ -42,11 +40,11 @@ getCustomerByEmailQuery = (email) => {
     });
 };
 
-updatingCustomerDataQuery = ( customer_id,customer) => {
-    const query = 'UPDATE customer SET name=?,surname=?,city=?,adress=?,email=?,username=?,password=?,deletedAt=? WHERE customer_id = ?';
+updatingCustomerDataQuery = ( customer_id,customer,password) => {
+    const query = 'UPDATE customer SET name=?,surname=?,city=?,adress=?,email=?,username=?,password=? WHERE customer_id = ?';
     return new Promise((resolve, reject) => {
         connect.query(query, [customer.name, customer.surname, customer.city, customer.adress,
-        customer.email, customer.username, customer.password, customer.deletedAt,customer_id], (error, results, fields) => {
+        customer.email, customer.username,password,customer_id], (error, results, fields) => {
             if (error) {
                 reject(error);
             } else {
