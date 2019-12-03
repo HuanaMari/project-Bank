@@ -1,5 +1,6 @@
 const { getAllLoansQuery,
-    sumOfTransactionsForLoanQuery } = require('./wrappers');
+    sumOfTransactionsForLoanQuery,
+    createLoanQuery } = require('./wrappers');
 
 getAllLoans = async (req, res) => {
     try {
@@ -20,7 +21,17 @@ sumTransactionsForLoan = async (req, res, next) => {
         res.status(500).send(error.message);
     }
 };
+createLoan = async (req, res, next) => {
+    let loan = req.body
+    try {
+        await createLoanQuery(loan);
+        res.status(200).send('Loan has been recorded');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
 module.exports = {
     getAllLoans,
-    sumTransactionsForLoan
+    sumTransactionsForLoan,
+    createLoan
 }

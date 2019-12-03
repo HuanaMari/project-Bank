@@ -30,11 +30,13 @@ getSpecificAccountByBalanceQuery = (balance) => {
 };
 
 createAccountQuery = (account) => {
-    const query = 'INSERT INTO account (account_number,createdOn,balance,branchId,customerId,deletedAt)\
-    VALUES (FLOOR(30012346789 + RAND() * 3000000 ),now(),?,?,?,?);';
+    const query = 'INSERT INTO account (account_number,createdOn,balance,branchId,customerId)\
+    VALUES (FLOOR(30012346789 + RAND() * 3000000 ),now(),?,?,?);';
     return new Promise((resolve, reject) => {
-        connect.query(query, [account.balance, account.branchId,account.customerId,account.deletedAt], (error, results, fields) => {
+        connect.query(query, [account.balance, account.branchId,account.customerId], (error, results, fields) => {
             if (error) {
+                let split = error.sqlMessage.split(' ')
+                error.message = `That ${split[17]} does not exist!!!`
                 reject(error)
             }
             else {
