@@ -17,14 +17,14 @@ createCustomerQuery = (customer, password) => {
     const query = 'INSERT INTO customer(name, surname, city, adress, email, username, password)\
     VALUES(?,?,?,?,?,?,?';
     return new Promise((resolve, reject) => {
-        connect.query(query, [customer.name, customer.surname, customer.city, customer.adress,customer.email, customer.username, password], (error, results, fields) => {
-                if (error) {
-                    reject(error);
-                }
-                else {
-                    resolve(results);
-                }
-            })
+        connect.query(query, [customer.name, customer.surname, customer.city, customer.adress, customer.email, customer.username, password], (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(results);
+            }
+        })
     })
 };
 getCustomerByEmailQuery = (email) => {
@@ -39,12 +39,11 @@ getCustomerByEmailQuery = (email) => {
         });
     });
 };
-
-updatingCustomerDataQuery = ( customer_id,customer,password) => {
+updatingCustomerDataQuery = (customer_id, customer, password) => {
     const query = 'UPDATE customer SET name=?,surname=?,city=?,adress=?,email=?,username=?,password=? WHERE customer_id = ?';
     return new Promise((resolve, reject) => {
         connect.query(query, [customer.name, customer.surname, customer.city, customer.adress,
-        customer.email, customer.username,password,customer_id], (error, results, fields) => {
+        customer.email, customer.username, password, customer_id], (error, results, fields) => {
             if (error) {
                 reject(error);
             } else {
@@ -53,6 +52,7 @@ updatingCustomerDataQuery = ( customer_id,customer,password) => {
         });
     });
 };
+
 
 module.exports = {
     getAllCustomersQuery,

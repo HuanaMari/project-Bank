@@ -1,36 +1,47 @@
 class Account {
-    constructor(account_number, createdOn, balance, branchId) {
-        this.account_number = account_number;
-        this.createdOn = createdOn;
-        this.balance = balance;
-        this.branchId = branchId;
+    constructor(obj) {
+        this.obj = obj;
+        this.account_number = obj.account_number;
+        this.createdOn = obj.createdOn;
+        this.balance = obj.balance;
+        this.branchId = obj.branchId;
+        this.customerId = obj.customerId;
     }
-}
-
+};
 class Customer {
-    constructor(name, surname, city, adress, accountId, email, username, password) {
-        this.name = name,
-            this.surname = surname,
-            this.city = city,
-            this.adress = adress,
-            this.accountId = accountId,
-            this.email = email,
-            this.username = username,
-            this.password = password
+    constructor(obj) {
+        this.obj = obj;
+        this.name = obj.name,
+        this.surname = obj.surname,
+        this.city = obj.city,
+        this.adress = obj.adress,
+        this.email = obj.email,
+        this.username = obj.username,
+        this.password = obj.password
     }
 }
 class Loan {
-    constructor(borrowedOn, amount, accountId, customerId, employeeId) {
-        this.borrowedOn = borrowedOn,
-            this.amount = amount,
-            this.accountId = accountId,
-            this.customerId = customerId,
-            this.employeeId = employeeId
+    constructor(obj) {
+        this.obj = obj;
+        this.borrowedOn = obj.borrowedOn,
+        this.amount = obj.amount,
+        this.accountId = obj.accountId,
+        this.customerId = obj.customerId,
+        this.employeeId = obj.employeeId
+    }
+};
+class Transaction {
+    constructor(obj) {
+        this.obj = obj;
+        this.transaction_amount = obj.transaction_amount;
+        this.transaction_madeOn = obj.transaction_madeOn;
+        this.accountId = obj.accountId
     }
 };
 
 module.exports = {
     Account,
     Customer,
-    Loan
+    Loan,
+    Transaction
 }

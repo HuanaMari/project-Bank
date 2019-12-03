@@ -1,4 +1,4 @@
-const { sumTransactionsQuery,
+const { sumTransactionQuery,
     insertTransactionQuery,
     allTransactionsQuery
 } = require('./wrappers');
@@ -15,7 +15,7 @@ allTransactions = async (req, res, next) => {
 };
 sumTransactions = async (req, res, next) => {
     try {
-        let sum = await sumTransactionsQuery();
+        let sum = await sumTransactionQuery(req.params.id);
         res.status(200).send(sum);
     }
     catch (error) {

@@ -32,9 +32,19 @@ getAccByBalance = async (req, res) => {
         res.status(500).send(error.message);
     }
 };
+getAccWithCustomerAndTrans = async (req, res, next) => {
+    try {
+        let join = await accounts.getAccountWithCustomerAndTransactionsQuery(req.params.id)
+        console.log(join)
+        res.status(200).send(join);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
 
 module.exports = {
     getAllAccounts,
     getAccByBalance,
-    createAccount
+    createAccount,
+    getAccWithCustomerAndTrans
 }

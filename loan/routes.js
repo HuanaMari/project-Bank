@@ -1,13 +1,13 @@
 const express = require('express');
 const { getAllLoans,
-    sumTransactionsForLoan,
-    createLoan } = require('./action');
+    createLoan,
+    getSpecLoan } = require('./action');
 
 let routes = express.Router();
 
 routes.get('/loan', getAllLoans);
-routes.get('/loan/:id', sumTransactionsForLoan);
-routes.post('/loan',createLoan)
+routes.post('/loan',createLoan);
+routes.get('/loan/:id',getSpecLoan);
 
 
 module.exports = routes
