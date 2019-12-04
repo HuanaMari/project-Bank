@@ -1,8 +1,7 @@
 const accounts = require('./wrapers');
-const { Account,
-    Customer,
-    Loan
-} = require('../models');
+const { Account, Customer, Loan, Transaction } = require('../models');
+const { sumTransactionQuery } = require('../transactions/wrappers')
+
 
 createAccount = async (req, res) => {
     try {
@@ -11,8 +10,7 @@ createAccount = async (req, res) => {
     } catch (error) {
         res.status(500).send(error.message)
     }
-}
-
+};
 getAllAccounts = async (req, res) => {
     try {
         let allAcc = await accounts.getAllAccountsQuery();
@@ -34,9 +32,15 @@ getAccByBalance = async (req, res) => {
 };
 getAccWithCustomerAndTrans = async (req, res, next) => {
     try {
-        let join = await accounts.getAccountWithCustomerAndTransactionsQuery(req.params.id)
-        console.log(join)
-        res.status(200).send(join);
+        let sumAmount = await sumTransactionQuery(req.params.id);
+        let join = await accounts.getAccountWithCustomerAndTransactionsQuery(req.params.id);
+        let dbAccount = join[0];
+        var total = dbAccount.balance + sumAmount[0].Total;
+        let account = new Account(dbAccount.account_number, dbAccount.createdOn, dbAccount.balance, dbAccount.branchId, dbAccount.customerId)
+        account.total = total;
+        let customer = new Customer(dbAccount.name, dbAccount.surname)
+        account.customer = customer;
+        res.status(200).send(account);
     } catch (error) {
         res.status(500).send(error.message);
     }

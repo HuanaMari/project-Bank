@@ -1,41 +1,37 @@
 class Account {
-    constructor(obj) {
-        this.obj = obj;
-        this.account_number = obj.account_number;
-        this.createdOn = obj.createdOn;
-        this.balance = obj.balance;
-        this.branchId = obj.branchId;
-        this.customerId = obj.customerId;
+    constructor(account_number,createdOn,balance,branchId,customerId) {
+        this.account_number = account_number;
+        this.createdOn = createdOn;
+        this.balance = balance;
+        this.branchId = branchId;
+        this.customerId = customerId;
     }
 };
 class Customer {
-    constructor(obj) {
-        this.obj = obj;
-        this.name = obj.name,
-        this.surname = obj.surname,
-        this.city = obj.city,
-        this.adress = obj.adress,
-        this.email = obj.email,
-        this.username = obj.username,
-        this.password = obj.password
+    constructor(name,surname,city,adress,email,username,password) {
+        this.name = name,
+            this.surname = surname,
+            this.city = city,
+            this.adress = adress,
+            this.email = email,
+            this.username = username,
+            this.password = password
     }
-}
+};
 class Loan {
-    constructor(obj) {
-        this.obj = obj;
-        this.borrowedOn = obj.borrowedOn,
-        this.amount = obj.amount,
-        this.accountId = obj.accountId,
-        this.customerId = obj.customerId,
-        this.employeeId = obj.employeeId
+    constructor(borrowedOn,amount,accountId,customerId,employeeId) {
+        this.borrowedOn = borrowedOn,
+            this.amount = amount,
+            this.accountId = accountId,
+            this.customerId = customerId,
+            this.employeeId = employeeId
     }
 };
 class Transaction {
-    constructor(obj) {
-        this.obj = obj;
-        this.transaction_amount = obj.transaction_amount;
-        this.transaction_madeOn = obj.transaction_madeOn;
-        this.accountId = obj.accountId
+    constructor(transaction_amount,transaction_madeOn,accountId) {
+        this.transaction_amount = transaction_amount;
+        this.transaction_madeOn = transaction_madeOn;
+        this.accountId = accountId
     }
 };
 
