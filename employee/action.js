@@ -1,4 +1,4 @@
-const { getAllEmployeesQuery, updateEmployeeDataQuery } = require('./wrappers');
+const { getAllEmployeesQuery, updateEmployeeDataQuery,getEmployeeByEmailQuery } = require('./wrappers');
 var bcrypt = require('bcryptjs');
 
 

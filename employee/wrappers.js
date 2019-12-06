@@ -26,8 +26,21 @@ updateEmployeeDataQuery = (id,employee,password) => {
         });
     });
 };
+getEmployeeByEmailQuery = (email) => {
+    const query = 'SELECT * FROM employee WHERE email = ?;'
+    return new Promise((resolve, reject) => {
+        connect.query(query, [email], function (error, results, fields) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+};
 
 module.exports = {
     getAllEmployeesQuery,
-    updateEmployeeDataQuery
+    updateEmployeeDataQuery,
+    getEmployeeByEmailQuery
 }
