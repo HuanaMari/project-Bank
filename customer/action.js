@@ -1,8 +1,5 @@
-const {
-    getAllCustomersQuery,
-    createCustomerQuery,
-    getCustomerByEmailQuery,
-    updatingCustomerDataQuery } = require('./wrappers');
+const {getAllCustomersQuery,createCustomerQuery,getUCustomerByEmailQuery,updatingCustomerDataQuery } = require('./wrappers');
+var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
 
@@ -44,12 +41,13 @@ updateCustomer = async (req, res, next) => {
 loginCustomer = async (req, res, next) => {
     const email = req.body.email;
     const pass = req.body.password;
+    console.log(newCustomer)
     try {
-        var customer = await getCustomerByEmailQuery(email);
+        var customer = await getUCustomerByEmailQuery(email);
         var newCustomer = customer[0];
-        const matchPass = bcrypt.compareSync(pass, newCustomer.password);
+        const matchPass = bcrypt.compareSync(pass,newCustomer.password);
         if (matchPass) {
-            // var token = jwt.sign({ newUser }, 'macePace', { expiresIn: '1h' });
+            var token = jwt.sign({ newCustomer }, 'customer', { expiresIn: '12h' });
             res.status(202).send(token);
         }
         else {
@@ -59,10 +57,11 @@ loginCustomer = async (req, res, next) => {
     catch (error) {
         res.status(500).send(error.message);
     }
-}
+};
 
 module.exports = {
     getAllCustomers,
     createCustomer,
-    updateCustomer
+    updateCustomer,
+    loginCustomer
 }

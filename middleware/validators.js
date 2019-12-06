@@ -9,6 +9,31 @@ emailValidator = (req,res,next) => {
     next();
 };
 
+// checkToken = (req, res, next) => {
+//     const header = req.headers['authorization'];
+//     if(typeof header !== 'undefined') {
+//         const bearer = header.split(' ');
+//         const token = bearer[1];
+//         req.token = token;
+//         next();
+//     } else {
+//         res.sendStatus(403)
+//     }
+// };
+
+// verifyToken = (req, res,next) => {
+//     jwt.verify(req.token, 'customer', (err, authorizedData) => {
+//         if(err){
+//             res.status(402).send('invalid token');
+//         } else {
+//             next()
+//         }
+//     });
+// };
+
+
 module.exports = {
-    emailValidator
+    emailValidator,
+    // checkToken,
+    // verifyToken
 }

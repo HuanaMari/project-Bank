@@ -52,11 +52,24 @@ updatingCustomerDataQuery = (customer_id, customer, password) => {
         });
     });
 };
+getUCustomerByEmailQuery = (email) => {
+    const query = 'SELECT * FROM customer WHERE email = ?'
+    return new Promise((resolve, reject) => {
+        connect.query(query, [email], function (error, results, fields) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+};
 
 
 module.exports = {
     getAllCustomersQuery,
     createCustomerQuery,
     getCustomerByEmailQuery,
-    updatingCustomerDataQuery
+    updatingCustomerDataQuery,
+    getUCustomerByEmailQuery
 }
