@@ -1,11 +1,13 @@
 const express = require('express');
 const actions = require('./actions');
+const { checkToken, verifyToken, checkEmployeeAuth, checkCustomerAuth } = require('../middleware/authentication');
+
 
 let routes = express.Router();
 
-routes.get('/acc',actions.getAllAccounts);
+routes.get('/acc', checkToken, verifyToken, checkEmployeeAuth,actions.getAllAccounts);
 // routes.post('/acc',actions.getAccByBalance);
-routes.post('/acc',actions.createAccount);
-routes.get('/acc/:id',getAccWithCustomerAndTrans);
+routes.post('/acc',checkToken, verifyToken, checkEmployeeAuth, actions.createAccount);
+routes.get('/acc/:id',checkToken, verifyToken, getAccWithCustomerAndTrans);
 
 module.exports = routes

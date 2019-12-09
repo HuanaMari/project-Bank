@@ -24,7 +24,7 @@ checkEmployeeAuth = (req, res, next) => {
     jwt.verify(req.token, 'customer', (err, authorizedData) => {
         let employee = Object.keys(authorizedData.user)[0].split('_');
         if (employee[0] !== "employee") {
-            res.status(402).send('invalid token');
+            res.status(401).send('Unauthorized: Access is denied due to invalid credentials');
         } else {
             next()
         }
@@ -33,15 +33,13 @@ checkEmployeeAuth = (req, res, next) => {
 checkCustomerAuth = (req, res, next) => {
     jwt.verify(req.token, 'customer', (err, authorizedData) => {
         let customer = Object.keys(authorizedData.user)[0].split('_');
-        console.log(customer)
         if (customer[0] !== "customer") {
-            res.status(402).send('invalid token');
+            res.status(401).send('Unauthorized: Access is denied due to invalid credentials');
         } else {
             next()
         }
     });
 };
-
 module.exports = {
     checkToken,
     verifyToken,

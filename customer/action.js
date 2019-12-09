@@ -1,7 +1,6 @@
 const { getAllCustomersQuery, createCustomerQuery, getCustomerByEmailQuery, updatingCustomerDataQuery } = require('./wrappers');
 const { getEmployeeByEmailQuery } = require('../employee/wrappers');
 const { loginRole } = require('../helpers');
-var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
 
@@ -33,7 +32,7 @@ updateCustomer = async (req, res) => {
     try {
         const passHash = bcrypt.hashSync(pass, 5)
         var customer = await updatingCustomerDataQuery(customerId, customerReq, passHash)
-        res.status(202).send('Customers data has been updated')
+        res.status(202).send('Customer data has been updated')
     }
     catch (error) {
         res.status(500).send(error.message)

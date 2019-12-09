@@ -1,9 +1,7 @@
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
-
-
-jsonLeshi = (obj, balance) => {
+jsonJoin = (obj, balance) => {
     let arr = [];
     let transactions = [];
     obj.forEach(e => {
@@ -31,7 +29,7 @@ loginRole = (user, employee, customer, pass) => {
         var error = new Error("wrong credentials");
         error.status = 404;
         return error.message
-    }
+    };
     user = user[0];
     let role = Object.keys(user)[0].split('_');
     const matchPass = bcrypt.compareSync(pass,user.password);
@@ -49,6 +47,6 @@ loginRole = (user, employee, customer, pass) => {
 
 
 module.exports = {
-    jsonLeshi,
+    jsonJoin,
     loginRole
 }

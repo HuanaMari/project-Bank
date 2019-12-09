@@ -5,9 +5,9 @@ const {checkToken,verifyToken,checkEmployeeAuth,checkCustomerAuth}=require('../m
 
 let routes = express.Router();
 
-routes.get('/customer',checkToken,verifyToken,checkCustomerAuth, getAllCustomers);
+routes.get('/customer',checkToken,verifyToken,checkEmployeeAuth, getAllCustomers);
 routes.post('/customer',emailValidator, createCustomer);
-routes.put('/customer/:customer_id',emailValidator, updateCustomer);
+routes.put('/customer/:customer_id',checkToken,verifyToken,checkCustomerAuth,emailValidator, updateCustomer);
 routes.post('/login',login);
 
 

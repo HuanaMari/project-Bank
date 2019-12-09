@@ -9,5 +9,5 @@ emailValidator = (req,res,next) => {
     next();
 };
 module.exports = {
-    emailValidator,
+    emailValidator
 }

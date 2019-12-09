@@ -1,7 +1,7 @@
 const accounts = require('./wrapers');
 const { Account, Customer, Loan, Transaction } = require('../models');
 const { sumTransactionQuery } = require('../transactions/wrappers');
-const {jsonLeshi} = require('../helpers');
+const {jsonJoin} = require('../helpers');
 
 
 createAccount = async (req, res) => {
@@ -37,7 +37,7 @@ getAccWithCustomerAndTrans = async (req, res, next) => {
         let join = await accounts.getAccountWithCustomerAndTransactionsQuery(req.params.id);
         let dbAccount= join[0]; 
         var newBalance = dbAccount.balance + sumAmount[0].Total;
-        let data = jsonLeshi(join,newBalance)
+        let data = jsonJoin(join,newBalance)
         res.status(200).send(data[0]);
     } catch (error) {
         res.status(500).send(error.message);

@@ -1,12 +1,11 @@
 const express = require('express');
-const { getAllLoans,
-    createLoan,
-    getSpecLoan } = require('./action');
+const {checkToken,verifyToken,checkEmployeeAuth,checkCustomerAuth}=require('../middleware/authentication');
+const { getAllLoans,createLoan,getSpecLoan } = require('./action');
 
 let routes = express.Router();
 
-routes.get('/loan', getAllLoans);
-routes.post('/loan',createLoan);
+routes.get('/loan',checkToken,verifyToken,getAllLoans);
+routes.post('/loan',checkToken,verifyToken,checkEmployeeAuth,createLoan);
 routes.get('/loan/:id',getSpecLoan);
 
 
