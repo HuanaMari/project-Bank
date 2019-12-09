@@ -52,12 +52,12 @@ getCustomerByEmailQuery = (email) => {
         });
     });
 };
-getSpecCustomerWithAccQuery = (id) => {
+getSpecCustomerWithAccQuery = (email) => {
     const query = 'SELECT customer.name,customer.surname,account.account_number,account.balance \
     FROM customer JOIN account on account.customerId=customer.customer_id \
-    WHERE customer.customer_id=?;';
+    WHERE customer.email=?;';
     return new Promise((resolve, reject) => {
-        connect.query(query, [id], function (error, results, fields) {
+        connect.query(query, [email], function (error, results, fields) {
             if (error) {
                 reject(error);
             } else {

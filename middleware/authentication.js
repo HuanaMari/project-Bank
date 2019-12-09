@@ -30,6 +30,7 @@ checkEmployeeAuth = (req, res, next) => {
         }
     });
 };
+
 checkCustomerAuth = (req, res, next) => {
     jwt.verify(req.token, 'customer', (err, authorizedData) => {
         let customer = Object.keys(authorizedData.user)[0].split('_');
@@ -40,9 +41,10 @@ checkCustomerAuth = (req, res, next) => {
         }
     });
 };
+
 module.exports = {
     checkToken,
     verifyToken,
     checkEmployeeAuth,
-    checkCustomerAuth
+    checkCustomerAuth,
 }

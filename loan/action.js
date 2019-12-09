@@ -45,7 +45,7 @@ getSpecLoan = async (req, res, next) => {
         let specLoan = await getSpecificLoanQuery(loanReq);
         let spec = specLoan[0]
         var total = spec.amount - sumAmount[0].Total
-        let loan = new Loan(spec.borrowedOn, spec.amount, spec.accountId, spec.customerId, spec.employeeId)
+        let loan = new Loan(spec);
         // let object = {
         //     borrowedOn:spec[0].borrowedOn,
         //     customerId:spec[0].customerId,

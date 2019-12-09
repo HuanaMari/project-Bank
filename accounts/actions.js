@@ -31,10 +31,10 @@ getAccByBalance = async (req, res) => {
         res.status(500).send(error.message);
     }
 };
-getAccWithCustomerAndTrans = async (req, res, next) => {
+getAccWithCustomerAndTrans = async (req, res) => {
     try {
-        let sumAmount = await sumTransactionQuery(req.params.id);
-        let join = await accounts.getAccountWithCustomerAndTransactionsQuery(req.params.id);
+        let sumAmount = await sumTransactionQuery(req.params.account);
+        let join = await accounts.getAccountWithCustomerAndTransactionsQuery(req.params.account);
         let dbAccount= join[0]; 
         var newBalance = dbAccount.balance + sumAmount[0].Total;
         let data = jsonJoin(join,newBalance)

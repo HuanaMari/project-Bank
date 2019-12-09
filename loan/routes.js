@@ -4,7 +4,7 @@ const { getAllLoans,createLoan,getSpecLoan } = require('./action');
 
 let routes = express.Router();
 
-routes.get('/loan',checkToken,verifyToken,getAllLoans);
+routes.get('/loan',checkToken,verifyToken,checkEmployeeAuth,getAllLoans);
 routes.post('/loan',checkToken,verifyToken,checkEmployeeAuth,createLoan);
 routes.get('/loan/:id',getSpecLoan);
 

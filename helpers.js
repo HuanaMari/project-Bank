@@ -1,5 +1,7 @@
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
+const {checkToken}=require('./middleware/authentication');
+
 
 jsonJoin = (obj, balance) => {
     let arr = [];
@@ -37,13 +39,23 @@ jsonCustomerAccounts = (obj) => {
     });
     return arr
 };
+emailFromToken = (req,res) => {
+    const header = req.headers['authorization'];
+    
+    const bearer = header.split(' ');
+    const token = bearer[1];
+    let varijabilna = jwt.verify(token, 'customer', (err, authorizedData) => {
+    return authorizedData.user.email
+    });
+    return varijabilna
+};
 loginRole = (user, employee, customer, pass) => {
     if (employee.length != 0) {
         user = employee;
     } else if (customer.length != 0) {
         user = customer
     } else {
-        var error = new Error("wrong credentials");
+        var error = new Error("Invalid email or password");
         error.status = 404;
         return error.message
     };
@@ -58,7 +70,7 @@ loginRole = (user, employee, customer, pass) => {
         }
         return current
     } else {
-        return false
+        return "password you entered is incorect"
     }
 };
 
@@ -66,5 +78,6 @@ loginRole = (user, employee, customer, pass) => {
 module.exports = {
     jsonJoin,
     jsonCustomerAccounts,
-    loginRole
+    loginRole,
+    emailFromToken
 }

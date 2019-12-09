@@ -44,11 +44,11 @@ createAccountQuery = (account) => {
         });
     });
 };
-getAccountWithCustomerAndTransactionsQuery = (id) => {
+getAccountWithCustomerAndTransactionsQuery = (account) => {
     const query = 'SELECT * FROM customer JOIN account ON customer.customer_id = account.customerId \
-    LEFT JOIN transaction ON transaction.accountId=account.account_id WHERE account.account_id=?;';
+    LEFT JOIN transaction ON transaction.accountId=account.account_id WHERE account.account_number=?;';
     return new Promise((resolve, reject) => {
-        connect.query(query,[id], (error, results, fields) => {
+        connect.query(query,[account], (error, results, fields) => {
             if (error) {
                 reject(error);
             }

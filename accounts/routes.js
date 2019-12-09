@@ -8,6 +8,6 @@ let routes = express.Router();
 routes.get('/acc', checkToken, verifyToken, checkEmployeeAuth,actions.getAllAccounts);
 // routes.post('/acc',actions.getAccByBalance);
 routes.post('/acc',checkToken, verifyToken, checkEmployeeAuth, actions.createAccount);
-routes.get('/acc/:id',checkToken, verifyToken, getAccWithCustomerAndTrans);
+routes.get('/acc/:account',checkToken, verifyToken, getAccWithCustomerAndTrans);
 
 module.exports = routes
