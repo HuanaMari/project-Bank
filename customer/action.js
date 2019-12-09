@@ -1,5 +1,8 @@
-const { getAllCustomersQuery, createCustomerQuery, getCustomerByEmailQuery, updatingCustomerDataQuery } = require('./wrappers');
+const { getAllCustomersQuery, createCustomerQuery, getCustomerByEmailQuery,
+    updatingCustomerDataQuery, getSpecCustomerWithAccQuery } = require('./wrappers');
 const { getEmployeeByEmailQuery } = require('../employee/wrappers');
+const { Customer, Loan, Account } = require('../models');
+const { jsonCustomerAccounts } = require('../helpers');
 const { loginRole } = require('../helpers');
 var bcrypt = require('bcryptjs');
 
@@ -38,6 +41,17 @@ updateCustomer = async (req, res) => {
         res.status(500).send(error.message)
     }
 };
+getSpecCustomerWithAcc = async (req, res) => {
+    let id = req.params.id;
+    try {
+        let reqCustomer = await getSpecCustomerWithAccQuery(id);
+        console.log(reqCustomer)
+        let customer = jsonCustomerAccounts(reqCustomer);
+        res.status(201).send(customer[0]);
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+};
 login = async (req, res) => {
     const email = req.body.email;
     const pass = req.body.password;
@@ -50,11 +64,12 @@ login = async (req, res) => {
     } catch (error) {
         res.status(500).send(error.message);
     }
-}
+};
 
 module.exports = {
     getAllCustomers,
     createCustomer,
     updateCustomer,
+    getSpecCustomerWithAcc,
     login
 }

@@ -20,6 +20,23 @@ jsonJoin = (obj, balance) => {
     });
     return arr
 };
+jsonCustomerAccounts = (obj) => {
+    let arr = [];
+    let account = [];
+    obj.forEach(e => {
+        temp = {
+            Name: e.name,
+            Surname: e.surname,
+            Accounts: account,
+            Created: e.createdOn,
+        }
+        arr.push(temp)
+    });
+    obj.forEach((x, i) => {
+        arr[i].Accounts.push(x.account_number);
+    });
+    return arr
+};
 loginRole = (user, employee, customer, pass) => {
     if (employee.length != 0) {
         user = employee;
@@ -32,7 +49,7 @@ loginRole = (user, employee, customer, pass) => {
     };
     user = user[0];
     let role = Object.keys(user)[0].split('_');
-    const matchPass = bcrypt.compareSync(pass,user.password);
+    const matchPass = bcrypt.compareSync(pass, user.password);
     if (matchPass) {
         var token = jwt.sign({ user }, 'customer', { expiresIn: '24h' });
         current = {
@@ -48,5 +65,6 @@ loginRole = (user, employee, customer, pass) => {
 
 module.exports = {
     jsonJoin,
+    jsonCustomerAccounts,
     loginRole
 }

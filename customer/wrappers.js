@@ -27,18 +27,6 @@ createCustomerQuery = (customer, password) => {
         })
     })
 };
-getCustomerByEmailQuery = (email) => {
-    const query = 'SELECT * FROM customer WHERE email = ?'
-    return new Promise((resolve, reject) => {
-        connect.query(query, [email], function (error, results, fields) {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(results);
-            }
-        });
-    });
-};
 updatingCustomerDataQuery = (customer_id, customer, password) => {
     const query = 'UPDATE customer SET name=?,surname=?,city=?,adress=?,email=?,username=?,password=? WHERE customer_id = ?';
     return new Promise((resolve, reject) => {
@@ -64,12 +52,26 @@ getCustomerByEmailQuery = (email) => {
         });
     });
 };
-
+getSpecCustomerWithAccQuery = (id) => {
+    const query = 'SELECT customer.name,customer.surname,account.account_number,account.balance \
+    FROM customer JOIN account on account.customerId=customer.customer_id \
+    WHERE customer.customer_id=?;';
+    return new Promise((resolve, reject) => {
+        connect.query(query, [id], function (error, results, fields) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
 
 module.exports = {
     getAllCustomersQuery,
     createCustomerQuery,
     getCustomerByEmailQuery,
     updatingCustomerDataQuery,
-    getCustomerByEmailQuery
+    getCustomerByEmailQuery,
+    getSpecCustomerWithAccQuery
 }

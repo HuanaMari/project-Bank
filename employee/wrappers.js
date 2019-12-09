@@ -38,7 +38,6 @@ getEmployeeByEmailQuery = (email) => {
         });
     });
 };
-
 module.exports = {
     getAllEmployeesQuery,
     updateEmployeeDataQuery,
