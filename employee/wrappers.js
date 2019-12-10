@@ -13,11 +13,12 @@ getAllEmployeesQuery = () => {
         });
     });
 };
-updateEmployeeDataQuery = (id,employee,password) => {
-    const query = 'UPDATE employee SET name = ?,surname=?,email=?,password=?,branchId=? WHERE employee_id=?;';
+updateEmployeeDataQuery = (email,employee,password) => {
+    const query = 'UPDATE employee SET name = ?,surname=?,email=?,password=?,branchId=? WHERE email=?;';
     return new Promise((resolve, reject) => {
-        connect.query(query,[employee.name,employee.surname,employee.email,password,employee.branchId,id], (error, results, fields) => {
+        connect.query(query,[employee.name,employee.surname,employee.email,password,employee.branchId,email], (error, results, fields) => {
             if (error) {
+                error.message = `Check your credentials!!!`
                 reject(error);
             }
             else {
