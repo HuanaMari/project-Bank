@@ -1,7 +1,6 @@
-const { getAllLoansQuery,
-    createLoanQuery,
-    getSpecificLoanQuery } = require('./wrappers');
+const { getAllLoansQuery, createLoanQuery, getSpecificLoanQuery, getLoanWithAllDataQuery } = require('./wrappers');
 const { sumTransactionQuery } = require('../transactions/wrappers');
+const { emailFromToken } = require('../helpers');
 const { Account, Customer, Loan, Transaction } = require('../models');
 
 getAllLoans = async (req, res) => {
@@ -46,14 +45,33 @@ getSpecLoan = async (req, res, next) => {
         let spec = specLoan[0]
         var total = spec.amount - sumAmount[0].Total
         let loan = new Loan(spec);
-        // let object = {
-        //     borrowedOn:spec[0].borrowedOn,
-        //     customerId:spec[0].customerId,
-        //     employeeId:spec[0].employeeId,
-        //     remain: total        
-        // }
-        loan.total = total;
+        let loanToShow = loan.loanToShow();
+
+        loanToShow.total = total;
         res.status(200).send(loan);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+getLoanWithAllData = async (req, res, next) => {
+    let email = emailFromToken(req);
+    try {
+        let results = await getLoanWithAllDataQuery(email);
+        let dbLoan = results[0];
+        let sumAmount = await sumTransactionQuery(dbLoan.account_id);
+        var total = dbLoan.amount - sumAmount[0].Total
+
+        let loanRes = new Loan (dbLoan);
+        let loan = loanRes.loanToShow();
+
+        let dbtransactions = new Transaction(results[0]);
+
+        let tran = dbtransactions.TransactionToShow();
+
+        console.log(tran)
+
+
+        res.status(200).send(results);
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -62,5 +80,6 @@ getSpecLoan = async (req, res, next) => {
 module.exports = {
     getAllLoans,
     createLoan,
-    getSpecLoan
+    getSpecLoan,
+    getLoanWithAllData
 }

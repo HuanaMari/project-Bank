@@ -33,7 +33,6 @@ updatingCustomerDataQuery = (email, customer, password) => {
         connect.query(query, [customer.name, customer.surname, customer.city, customer.adress,
         customer.email, customer.username, password, email], (error, results, fields) => {
             if (error) {
-                error.message= "You do not have permission to view this directory or page using the credentials that you supplied"
                 reject(error);
             } else {
                 resolve(results);
@@ -66,7 +65,7 @@ getSpecCustomerWithAccQuery = (email) => {
             }
         });
     });
-}
+};
 
 module.exports = {
     getAllCustomersQuery,

@@ -15,6 +15,12 @@ class Account {
         }
         return temp
     };
+    accNumber(){
+        let temp ={
+            account_number: this.obj.account_number,
+        }
+        return temp
+    }
 };
 class Customer {
     constructor(obj) {
@@ -62,11 +68,10 @@ class Transaction {
     TransactionToShow() {
         let temp = {
             transaction_amount: this.obj.transaction_amount,
-            transaction_madeOn: this.objtransaction_madeOn
+            transaction_madeOn: this.obj.transaction_madeOn
         }
         return temp
     };
-  
 };
 
 module.exports = {

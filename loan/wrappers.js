@@ -39,9 +39,26 @@ getSpecificLoanQuery = (id) => {
             }
         });
     });
-}
+};
+getLoanWithAllDataQuery = (email) => {
+    const query = 'SELECT loan.borrowedOn,loan.amount,customer.name,customer.surname,\
+    account.account_id,account.account_number,transaction_amount,transaction.transaction_madeOn FROM loan \
+    JOIN transaction on loan.accountId=transaction.accountId \
+    JOIN account on account.account_id = loan.accountId \
+    JOIN customer on customer.customer_id=account.customerId where customer.email=?;';
+    return new Promise((resolve, reject) => {
+        connect.query(query,[email], (error, results, fields) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+};
 module.exports = {
     getAllLoansQuery,
     createLoanQuery,
-    getSpecificLoanQuery
+    getSpecificLoanQuery,
+    getLoanWithAllDataQuery
 }

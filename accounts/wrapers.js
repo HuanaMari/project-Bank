@@ -59,7 +59,8 @@ getAccountWithCustomerAndTransactionsQuery = (account) => {
     });
 
     
-}
+};
+
 module.exports = {
     getAllAccountsQuery,
     getSpecificAccountByBalanceQuery,
