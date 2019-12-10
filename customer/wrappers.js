@@ -27,12 +27,13 @@ createCustomerQuery = (customer, password) => {
         })
     })
 };
-updatingCustomerDataQuery = (customer_id, customer, password) => {
-    const query = 'UPDATE customer SET name=?,surname=?,city=?,adress=?,email=?,username=?,password=? WHERE customer_id = ?';
+updatingCustomerDataQuery = (email, customer, password) => {
+    const query = 'UPDATE customer SET name=?,surname=?,city=?,adress=?,email=?,username=?,password=? WHERE email= ?';
     return new Promise((resolve, reject) => {
         connect.query(query, [customer.name, customer.surname, customer.city, customer.adress,
-        customer.email, customer.username, password, customer_id], (error, results, fields) => {
+        customer.email, customer.username, password, email], (error, results, fields) => {
             if (error) {
+                error.message= "You do not have permission to view this directory or page using the credentials that you supplied"
                 reject(error);
             } else {
                 resolve(results);

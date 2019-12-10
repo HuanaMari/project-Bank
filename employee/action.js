@@ -23,7 +23,8 @@ updateEmployeeData = async (req, res) => {
         res.status(202).send('Employee data has been updated')
     }
     catch (error) {
-        res.status(500).send(error.message)
+        error.message = 'You do not have permission to view this directory or page using the credentials that you supplied.'
+        res.status(500).send(error)
     }
 };
 module.exports = {

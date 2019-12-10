@@ -18,7 +18,6 @@ updateEmployeeDataQuery = (email,employee,password) => {
     return new Promise((resolve, reject) => {
         connect.query(query,[employee.name,employee.surname,employee.email,password,employee.branchId,email], (error, results, fields) => {
             if (error) {
-                error.message = `Check your credentials!!!`
                 reject(error);
             }
             else {

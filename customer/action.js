@@ -30,11 +30,11 @@ createCustomer = async (req, res) => {
 };
 updateCustomer = async (req, res) => {
     let customerReq = req.body
-    let customerId = req.params.customer_id
+    let email = emailFromToken(req);
     const pass = req.body.password
     try {
         const passHash = bcrypt.hashSync(pass, 5)
-        var customer = await updatingCustomerDataQuery(customerId, customerReq, passHash)
+        var customer = await updatingCustomerDataQuery(email, customerReq, passHash)
         res.status(202).send('Customer data has been updated')
     }
     catch (error) {
