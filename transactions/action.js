@@ -1,8 +1,5 @@
-const { sumTransactionQuery,
-    insertTransactionQuery,
-    allTransactionsQuery
-} = require('./wrappers');
-
+const { sumTransactionQuery, insertTransactionQuery, allTransactionsQuery } = require('./wrappers');
+const { idFromToken } = require('../helpers');
 
 allTransactions = async (req, res, next) => {
     try {
@@ -24,24 +21,35 @@ sumTransactions = async (req, res, next) => {
 };
 insertTransaction = async (req, res, next) => {
     let amount = req.body.transaction_amount;
-    if (amount === 0) {
+    customerId = req.body.customerId;
+    console.log(customerId)
+    let cus = idFromToken(req);
+    console.log(req.body)
+    if (cus != customerId) {
+        var error = new Error('you can not make transaction for this account');
+        error.status = 402;
+        next(error);
+    } else if (customerId === 0) {
+        var error = new Error('CustomerId cannot be 0');
+        error.status = 402;
+        next(error);
+    } else if (amount === 0) {
         var error = new Error('Transaction cannot be 0');
         error.status = 402;
         next(error);
-    }else if(req.body.transaction_madeOn != null){
+    } else if (req.body.transaction_madeOn != null) {
         var error = new Error('You cannot add time!');
         error.status = 402;
         next(error);
-    }
-     else {
+    } else {
         try {
             await insertTransactionQuery(req.body);
             res.status(200).send(`Inserted ${req.body.transaction_amount} $`);
         }
         catch (error) {
-            res.status(500).json({
-                error: 'account does not exist'
-            })
+            // let split = error.sqlMessage.split(' ')
+            // error.message = `That ${split[17]} does not exist!!!`
+            res.status(500).send(error.message)
         }
     }
 };

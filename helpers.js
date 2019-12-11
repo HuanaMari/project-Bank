@@ -37,15 +37,25 @@ jsonCustomerAccounts = (obj) => {
     });
     return arr
 };
-emailFromToken = (req,res) => {
+emailFromToken = (req, res) => {
     const header = req.headers['authorization'];
     const bearer = header.split(' ');
     const token = bearer[1];
     let varijabilna = jwt.verify(token, 'customer', (err, authorizedData) => {
-    return authorizedData.user.email
+        return authorizedData.user.email
     });
     return varijabilna
 };
+idFromToken = (req, res) => {
+    const header = req.headers['authorization'];
+    const bearer = header.split(' ');
+    const token = bearer[1];
+    let varijabilna = jwt.verify(token, 'customer', (err, authorizedData) => {
+        return authorizedData.user.customer_id
+    });
+    return varijabilna
+};
+
 loginRole = (user, employee, customer, pass) => {
     if (employee.length != 0) {
         user = employee;
@@ -70,9 +80,22 @@ loginRole = (user, employee, customer, pass) => {
         return "password you entered is incorect"
     }
 };
+transactionJSON = (transactions) => {
+    let arr=[]
+    transactions.forEach(e => {
+        temp = {
+            transaction_amount: e.transaction_amount,
+            transaction_madeOn: e.transaction_madeOn
+        }
+        arr.push(temp)
+    });
+   return arr
+}
 module.exports = {
     jsonJoin,
     jsonCustomerAccounts,
     loginRole,
-    emailFromToken
+    emailFromToken,
+    transactionJSON,
+    idFromToken
 }

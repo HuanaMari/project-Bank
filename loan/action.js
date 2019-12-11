@@ -1,6 +1,6 @@
-const { getAllLoansQuery, createLoanQuery, getSpecificLoanQuery, getLoanWithAllDataQuery } = require('./wrappers');
+const { getAllLoansQuery, createLoanQuery, getLoanWithAllDataQuery } = require('./wrappers');
 const { sumTransactionQuery } = require('../transactions/wrappers');
-const { emailFromToken } = require('../helpers');
+const { emailFromToken, transactionJSON } = require('../helpers');
 const { Account, Customer, Loan, Transaction } = require('../models');
 
 getAllLoans = async (req, res) => {
@@ -36,22 +36,6 @@ getPostsForUser = async (req, res) => {
     } catch (error) {
         res.status(500).send(error);
     }
-}
-getSpecLoan = async (req, res, next) => {
-    let loanReq = req.params.id
-    try {
-        let sumAmount = await sumTransactionQuery(loanReq);
-        let specLoan = await getSpecificLoanQuery(loanReq);
-        let spec = specLoan[0]
-        var total = spec.amount - sumAmount[0].Total
-        let loan = new Loan(spec);
-        let loanToShow = loan.loanToShow();
-
-        loanToShow.total = total;
-        res.status(200).send(loan);
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
 };
 getLoanWithAllData = async (req, res, next) => {
     let email = emailFromToken(req);
@@ -59,27 +43,27 @@ getLoanWithAllData = async (req, res, next) => {
         let results = await getLoanWithAllDataQuery(email);
         let dbLoan = results[0];
         let sumAmount = await sumTransactionQuery(dbLoan.account_id);
-        var total = dbLoan.amount - sumAmount[0].Total
-
-        let loanRes = new Loan (dbLoan);
+        var remains = dbLoan.amount - sumAmount[0].Total
+        let loanRes = new Loan(dbLoan);
+        let acc = new Account(dbLoan);
+        let cus = new Customer(dbLoan);
+        let transaction = transactionJSON(results);
+        let dbtransactions = new Transaction(transaction);
         let loan = loanRes.loanToShow();
-
-        let dbtransactions = new Transaction(results[0]);
-
-        let tran = dbtransactions.TransactionToShow();
-
-        console.log(tran)
-
-
-        res.status(200).send(results);
+        let customer = cus.customerToShow();
+        let account = acc.accNumber();
+        loan.customer= customer;
+        loan.account = account;
+        loan.installments = dbtransactions;
+        loan.remains = remains;
+        res.status(200).send(loan);
     } catch (error) {
         res.status(500).send(error.message);
     }
-}
+};
 
 module.exports = {
     getAllLoans,
     createLoan,
-    getSpecLoan,
     getLoanWithAllData
 }

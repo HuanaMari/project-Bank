@@ -17,26 +17,27 @@ class Account {
     };
     accNumber(){
         let temp ={
+            accountId: this.obj.account_id,
             account_number: this.obj.account_number,
         }
         return temp
     }
 };
 class Customer {
-    constructor(obj) {
-        this.obj = obj
-        this.name = obj.name,
-            this.surname = obj.surname,
-            this.city = obj.city,
-            this.adress = obj.adress,
-            this.email = obj.email,
-            this.username = obj.username,
-            this.password = obj.password
+    constructor(customers) {
+        this.customers = customers
+        this.name = customers.name,
+            this.surname = customers.surname,
+            this.city = customers.city,
+            this.adress = customers.adress,
+            this.email = customers.email,
+            this.username = customers.username,
+            this.password = customers.password
     };
     customerToShow() {
         let temp = {
-            name: this.obj.name,
-            surname: this.obj.surname
+            name: this.customers.name,
+            surname: this.customers.surname
         }
         return temp
     };
@@ -59,16 +60,17 @@ class Loan {
     };
 };
 class Transaction {
-    constructor(obj) {
-        this.obj = obj,
-            this.transaction_amount = obj.transaction_amount;
-        this.transaction_madeOn = obj.transaction_madeOn;
-        this.accountId = obj.accountId
+    constructor(transactions) {
+        this.transactions = transactions,
+            this.transaction_amount = transactions.transaction_amount;
+        this.transaction_madeOn = transactions.transaction_madeOn;
+        this.accountId = transactions.accountId,
+        this.customerId = transactions.customerId
     };
     TransactionToShow() {
         let temp = {
-            transaction_amount: this.obj.transaction_amount,
-            transaction_madeOn: this.obj.transaction_madeOn
+            transaction_amount: this.transactions.transaction_amount,
+            transaction_madeOn: this.transactions.transaction_madeOn
         }
         return temp
     };

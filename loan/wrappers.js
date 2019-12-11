@@ -28,18 +28,6 @@ createLoanQuery = (loan) => {
         });
     });
 };
-getSpecificLoanQuery = (id) => {
-    const query = 'SELECT * FROM loan WHERE accountId=?';
-    return new Promise((resolve, reject) => {
-        connect.query(query,[id], (error, results, fields) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(results);
-            }
-        });
-    });
-};
 getLoanWithAllDataQuery = (email) => {
     const query = 'SELECT loan.borrowedOn,loan.amount,customer.name,customer.surname,\
     account.account_id,account.account_number,transaction_amount,transaction.transaction_madeOn FROM loan \
@@ -59,6 +47,5 @@ getLoanWithAllDataQuery = (email) => {
 module.exports = {
     getAllLoansQuery,
     createLoanQuery,
-    getSpecificLoanQuery,
     getLoanWithAllDataQuery
 }

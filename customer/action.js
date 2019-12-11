@@ -10,7 +10,8 @@ var jwt = require('jsonwebtoken');
 getAllCustomers = async (req, res) => {
     try {
         let allCus = await getAllCustomersQuery();
-        res.status(200).send(allCus);
+        let customer = new Customer(allCus)
+        res.status(200).send(customer);
     }
     catch (error) {
         res.status(500).send(error.message);
@@ -21,7 +22,6 @@ createCustomer = async (req, res) => {
     const pass = req.body.password
     try {
         const passHash = bcrypt.hashSync(pass, 5)
-        console.log(passHash)
         await createCustomerQuery(customerRequest, passHash)
         res.status(200).send('Customer has been created');
     } catch (error) {
