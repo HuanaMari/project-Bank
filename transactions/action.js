@@ -22,9 +22,7 @@ sumTransactions = async (req, res, next) => {
 insertTransaction = async (req, res, next) => {
     let amount = req.body.transaction_amount;
     customerId = req.body.customerId;
-    console.log(customerId)
     let cus = idFromToken(req);
-    console.log(req.body)
     if (cus != customerId) {
         var error = new Error('you can not make transaction for this account');
         error.status = 402;
@@ -47,8 +45,6 @@ insertTransaction = async (req, res, next) => {
             res.status(200).send(`Inserted ${req.body.transaction_amount} $`);
         }
         catch (error) {
-            // let split = error.sqlMessage.split(' ')
-            // error.message = `That ${split[17]} does not exist!!!`
             res.status(500).send(error.message)
         }
     }

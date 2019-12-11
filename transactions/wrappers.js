@@ -14,9 +14,10 @@ allTransactionsQuery = () => {
     });
 };
 insertTransactionQuery = (transaction) => {
-    const query = ' INSERT INTO transaction (transaction_amount,transaction_madeOn,accountId,customerId) VALUES(?,now(),?,?); '
+    const query = ' INSERT INTO transaction (transaction_amount,transaction_madeOn,accountId,customerId)\
+     VALUES(?,now(),?,?); '
     return new Promise((resolve, reject) => {
-        connect.query(query, [transaction.transaction_amount, transaction.accountId,transaction.CUSTOMERiD], (error, results, fields) => {
+        connect.query(query, [transaction.transaction_amount, transaction.accountId,transaction.customerId], (error, results, fields) => {
             if (error) {
                 reject(error);
             }
@@ -44,5 +45,4 @@ module.exports = {
     sumTransactionQuery,
     insertTransactionQuery,
     sumTransactionQuery
-
 }

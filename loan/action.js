@@ -22,21 +22,6 @@ createLoan = async (req, res, next) => {
         res.status(500).send(error.message);
     }
 };
-getPostsForUser = async (req, res) => {
-    const userId = req.params.userId;
-    try {
-        const result = await getPostsForUserQuery(userId);
-        const dbUser = result[0];
-        let user = new User(dbUser.Name, dbUser.Surname, dbUser.Email, dbUser.Age, dbUser.IsActive, []);
-        let posts = result.map(x => {
-            return new Post(x.Text, x.Likes, x.CreatedOn);
-        });
-        user.posts = posts;
-        res.status(201).send(user);
-    } catch (error) {
-        res.status(500).send(error);
-    }
-};
 getLoanWithAllData = async (req, res, next) => {
     let email = emailFromToken(req);
     try {
