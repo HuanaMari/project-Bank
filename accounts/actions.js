@@ -37,13 +37,12 @@ getAccWithCustomerAndTrans = async (req, res) => {
         let join = await accounts.getAccountWithCustomerAndTransactionsQuery(req.params.account);
         let dbAccount= join[0]; 
         var newBalance = dbAccount.balance + sumAmount[0].Total;
-        let data = jsonJoin(join,newBalance)
+        let data = jsonJoin(join,newBalance);
         res.status(200).send(data[0]);
     } catch (error) {
         res.status(500).send(error.message);
     }
 };
-
 module.exports = {
     getAllAccounts,
     getAccByBalance,

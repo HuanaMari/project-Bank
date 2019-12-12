@@ -1,4 +1,5 @@
 var jwt = require('jsonwebtoken');
+const {Transaction}=require('./models')
 var bcrypt = require('bcryptjs');
 
 jsonJoin = (obj, balance) => {
@@ -16,7 +17,9 @@ jsonJoin = (obj, balance) => {
         arr.push(temp)
     });
     obj.forEach((x, i) => {
-        arr[i].Transactions.push(x.transaction_amount);
+       var temp = new Transaction(x);
+       temp = temp.TransactionToShow()
+        arr[i].Transactions.push(temp);
     });
     return arr
 };
