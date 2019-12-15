@@ -60,10 +60,28 @@ getAccountWithCustomerAndTransactionsQuery = (account) => {
 
     
 };
+getAccForSpecCustomerQuery = (customerId)=>{
+    const query = 'SELECT * FROM account WHERE customerId=?;';
+   return new Promise((resolve, reject) => {
+       connect.query(query, [customerId], (error, results, fields) => {
+           if (error) {
+               reject(error);
+           }
+           else {
+            console.log(results[0])
+            if(results.affectedRows == 0) {
+                reject("There is no customer with that Id")
+            }
+               resolve(results);
+           }
+       });
+   });
+};
 
 module.exports = {
     getAllAccountsQuery,
     getSpecificAccountByBalanceQuery,
     createAccountQuery,
-    getAccountWithCustomerAndTransactionsQuery
+    getAccountWithCustomerAndTransactionsQuery,
+    getAccForSpecCustomerQuery
 }

@@ -5,9 +5,10 @@ const { checkToken, verifyToken, checkEmployeeAuth, checkCustomerAuth } = requir
 
 let routes = express.Router();
 
-routes.get('/acc', checkToken, verifyToken, checkEmployeeAuth,actions.getAllAccounts);
+routes.get('/acc', checkToken, verifyToken, checkEmployeeAuth, actions.getAllAccounts);
 // routes.post('/acc',actions.getAccByBalance);
-routes.post('/acc',checkToken, verifyToken, checkEmployeeAuth, actions.createAccount);
-routes.get('/acc/:account',checkToken, verifyToken, getAccWithCustomerAndTrans);
+routes.post('/acc/customer', checkToken, verifyToken, actions.getAccForSpecCustomer)
+routes.post('/acc', checkToken, verifyToken, checkEmployeeAuth, actions.createAccount);
+routes.get('/acc/:account', checkToken, verifyToken, getAccWithCustomerAndTrans);
 
 module.exports = routes

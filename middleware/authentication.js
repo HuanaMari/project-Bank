@@ -42,6 +42,8 @@ checkCustomerAuth = (req, res, next) => {
     });
 };
 
+
+
 module.exports = {
     checkToken,
     verifyToken,

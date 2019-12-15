@@ -1,5 +1,5 @@
 var jwt = require('jsonwebtoken');
-const {Transaction}=require('./models')
+const { Transaction,Account } = require('./models')
 var bcrypt = require('bcryptjs');
 
 jsonJoin = (obj, balance) => {
@@ -17,8 +17,8 @@ jsonJoin = (obj, balance) => {
         arr.push(temp)
     });
     obj.forEach((x, i) => {
-       var temp = new Transaction(x);
-       temp = temp.TransactionToShow()
+        var temp = new Transaction(x);
+        temp = temp.TransactionToShow()
         arr[i].Transactions.push(temp);
     });
     return arr
@@ -58,7 +58,6 @@ idFromToken = (req, res) => {
     });
     return varijabilna
 };
-
 loginRole = (user, employee, customer, pass) => {
     if (employee.length != 0) {
         user = employee;
@@ -84,7 +83,7 @@ loginRole = (user, employee, customer, pass) => {
     }
 };
 transactionJSON = (transactions) => {
-    let arr=[]
+    let arr = []
     transactions.forEach(e => {
         temp = {
             transaction_amount: e.transaction_amount,
@@ -92,7 +91,25 @@ transactionJSON = (transactions) => {
         }
         arr.push(temp)
     });
-   return arr
+    return arr
+};
+accCusJoinJSON = (obj) => {
+    let arr = [];
+    let accounts = [];
+    obj.forEach(e => {
+        temp = {
+            customerId: e.customerId,
+            accounts: accounts
+        }
+        
+        arr.push(temp)
+    });
+    obj.forEach((x, i) => {
+        var temp = new Account(x);
+        temp = temp.accNumber()
+        arr[i].accounts.push(temp);
+    });
+    return arr
 }
 module.exports = {
     jsonJoin,
@@ -100,5 +117,6 @@ module.exports = {
     loginRole,
     emailFromToken,
     transactionJSON,
-    idFromToken
+    idFromToken,
+    accCusJoinJSON
 }
