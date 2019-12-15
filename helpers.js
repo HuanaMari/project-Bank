@@ -100,8 +100,7 @@ accCusJoinJSON = (obj) => {
         temp = {
             customerId: e.customerId,
             accounts: accounts
-        }
-        
+        }        
         arr.push(temp)
     });
     obj.forEach((x, i) => {

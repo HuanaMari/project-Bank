@@ -3,7 +3,6 @@ const { Account, Customer, Loan, Transaction } = require('../models');
 const { sumTransactionQuery } = require('../transactions/wrappers');
 const { jsonJoin, accCusJoinJSON } = require('../helpers');
 
-
 createAccount = async (req, res) => {
     try {
         let account = await accounts.createAccountQuery(req.body)
@@ -64,7 +63,8 @@ getAccForSpecCustomer = async (req, res, next) => {
             res.status(500).send(error.message);
         }
     }
-}
+};
+
 module.exports = {
     getAllAccounts,
     getAccByBalance,

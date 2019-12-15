@@ -12,7 +12,6 @@ checkToken = (req, res, next) => {
     }
 };
 verifyToken = (req, res, next) => {
-    
     jwt.verify(req.token, 'customer', (err, authorizedData) => {
         if (err) {
             res.status(402).json('invalid token');
@@ -21,7 +20,6 @@ verifyToken = (req, res, next) => {
         }
     });
 };
-
 checkEmployeeAuth = (req, res, next) => {
     jwt.verify(req.token, 'customer', (err, authorizedData) => {
         let employee = Object.keys(authorizedData.user)[0].split('_');
@@ -32,7 +30,6 @@ checkEmployeeAuth = (req, res, next) => {
         }
     });
 };
-
 checkCustomerAuth = (req, res, next) => {
     jwt.verify(req.token, 'customer', (err, authorizedData) => {
         let customer = Object.keys(authorizedData.user)[0].split('_');
@@ -44,9 +41,6 @@ checkCustomerAuth = (req, res, next) => {
         }
     });
 };
-
-
-
 module.exports = {
     checkToken,
     verifyToken,
