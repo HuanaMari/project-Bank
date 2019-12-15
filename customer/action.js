@@ -14,7 +14,7 @@ getAllCustomers = async (req, res) => {
         res.status(200).send(customer);
     }
     catch (error) {
-        res.status(500).send(error.message);
+        res.status(500).json(error.message);
     }
 };
 createCustomer = async (req, res) => {
@@ -25,7 +25,7 @@ createCustomer = async (req, res) => {
         await createCustomerQuery(customerRequest, passHash)
         res.status(200).send('Customer has been created');
     } catch (error) {
-        res.status(500).send(error.message)
+        res.status(500).json(error.message)
     }
 };
 updateCustomer = async (req, res) => {
@@ -38,8 +38,7 @@ updateCustomer = async (req, res) => {
         res.status(202).send('Customer data has been updated')
     }
     catch (error) {
-        error.message= "You do not have permission to view this directory or page using the credentials that you supplied"
-        res.status(500).send(error.message)
+        res.status(500).json(error.message)
     }
 };
 getSpecCustomerWithAcc = async (req, res) => {

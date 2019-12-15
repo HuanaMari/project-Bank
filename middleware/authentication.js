@@ -8,23 +8,25 @@ checkToken = (req, res, next) => {
         req.token = token;
         next();
     } else {
-        res.sendStatus(403)
+        res(status).send()
     }
 };
 verifyToken = (req, res, next) => {
+    
     jwt.verify(req.token, 'customer', (err, authorizedData) => {
         if (err) {
-            res.status(402).send('invalid token');
+            res.status(402).json('invalid token');
         } else {
             next()
         }
     });
 };
+
 checkEmployeeAuth = (req, res, next) => {
     jwt.verify(req.token, 'customer', (err, authorizedData) => {
         let employee = Object.keys(authorizedData.user)[0].split('_');
         if (employee[0] !== "employee") {
-            res.status(401).send('Unauthorized: Access is denied due to invalid credentials');
+            res.status(401).json('Unauthorized: Access is denied due to invalid credentials');
         } else {
             next()
         }
@@ -35,7 +37,8 @@ checkCustomerAuth = (req, res, next) => {
     jwt.verify(req.token, 'customer', (err, authorizedData) => {
         let customer = Object.keys(authorizedData.user)[0].split('_');
         if (customer[0] !== "customer") {
-            res.status(401).send('Unauthorized: Access is denied due to invalid credentials');
+
+            res.status(401).json({ message: 'Unauthorized: Access is denied due to invalid credentials' });
         } else {
             next()
         }

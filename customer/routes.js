@@ -9,7 +9,7 @@ var cus = "customer"
 routes.get('/' + cus, [checkToken, verifyToken, checkEmployeeAuth], getAllCustomers);
 routes.post('/'+ cus, checkToken, verifyToken, emailValidator, passwordValidator, createCustomer);
 routes.get('/' + cus + '/accounts', checkToken, verifyToken, getSpecCustomerWithAcc);
-routes.put('/' + cus + '/:customer_id', checkToken, verifyToken, checkCustomerAuth,
+routes.put('/' + cus + '/data', checkToken, verifyToken, checkCustomerAuth,
     emailValidator, passwordValidator, updateCustomer);
 routes.post('/login', login);
 

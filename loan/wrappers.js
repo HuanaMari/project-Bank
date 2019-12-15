@@ -18,8 +18,8 @@ createLoanQuery = (loan) => {
     return new Promise((resolve, reject) => {
         connect.query(query, [loan.amount, loan.accountId, loan.customerId, loan.employeeId], (error, results, fields) => {
             if (error) {
-                let split = error.sqlMessage.split(' ')
-                error.message = `That ${split[17]} does not exist!!!`
+                // let split = error.sqlMessage.split(' ')
+                // error.message = `That ${split[17]} does not exist!!!`
                 reject(error);
             }
             else {

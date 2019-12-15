@@ -1,6 +1,6 @@
 const express = require('express');
 const actions = require('./actions');
-const { checkToken, verifyToken, checkEmployeeAuth, checkCustomerAuth } = require('../middleware/authentication');
+const { checkToken, verifyToken, checkEmployeeAuth } = require('../middleware/authentication');
 
 let routes = express.Router();
 var acc = 'account'

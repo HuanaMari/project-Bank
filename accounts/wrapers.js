@@ -48,7 +48,7 @@ getAccountWithCustomerAndTransactionsQuery = (account) => {
     const query = 'SELECT * FROM customer JOIN account ON customer.customer_id = account.customerId \
     LEFT JOIN transaction ON transaction.accountId=account.account_id WHERE account.account_id=?;';
     return new Promise((resolve, reject) => {
-        connect.query(query,[account], (error, results, fields) => {
+        connect.query(query, [account], (error, results, fields) => {
             if (error) {
                 reject(error);
             }
@@ -58,24 +58,19 @@ getAccountWithCustomerAndTransactionsQuery = (account) => {
         });
     });
 
-    
+
 };
-getAccForSpecCustomerQuery = (customerId)=>{
+getAccForSpecCustomerQuery = (customerId) => {
     const query = 'SELECT * FROM account WHERE customerId=?;';
-   return new Promise((resolve, reject) => {
-       connect.query(query, [customerId], (error, results, fields) => {
-           if (error) {
-               reject(error);
-           }
-           else {
-            console.log(results[0])
-            if(results.affectedRows == 0) {
-                reject("There is no customer with that Id")
+    return new Promise((resolve, reject) => {
+        connect.query(query, [customerId], (error, results, fields) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
             }
-               resolve(results);
-           }
-       });
-   });
+        });
+    });
 };
 
 module.exports = {
