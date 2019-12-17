@@ -72,7 +72,6 @@ getAccForSpecCustomerQuery = (customerId) => {
         });
     });
 };
-
 module.exports = {
     getAllAccountsQuery,
     getSpecificAccountByBalanceQuery,
