@@ -1,5 +1,6 @@
-const { sumTransactionQuery, insertTransactionQuery, allTransactionsQuery } = require('./wrappers');
-const { idFromToken } = require('../helpers');
+const { sumTransactionQuery, insertTransactionQuery, allTransactionsQuery, bankStatementQuery } = require('./wrappers');
+const { dataFromToken,BankStatementJSON,idFromToken } = require('../helpers');
+const {Transaction}=require('../models')
 
 allTransactions = async (req, res, next) => {
     try {
@@ -49,9 +50,21 @@ insertTransaction = async (req, res, next) => {
         }
     }
 };
+bankStatement = async (req, res, next) => {
+    let cus = dataFromToken(req);
+    try {
+        let reqStatement = await bankStatementQuery(cus.customer_id);
+        let ccc = BankStatementJSON(reqStatement,cus.name,cus.surname);
+         res.status(200).send(ccc[0]);
+    }
+    catch (error) {
+        res.status(500).send(error.message);
+    }
+}
 
 module.exports = {
     allTransactions,
     sumTransactions,
-    insertTransaction
+    insertTransaction,
+    bankStatement
 }

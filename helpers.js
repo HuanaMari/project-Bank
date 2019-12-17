@@ -1,5 +1,5 @@
 var jwt = require('jsonwebtoken');
-const { Transaction,Account } = require('./models')
+const { Transaction, Account } = require('./models')
 var bcrypt = require('bcryptjs');
 
 jsonJoin = (obj, balance) => {
@@ -58,6 +58,15 @@ idFromToken = (req, res) => {
     });
     return varijabilna
 };
+dataFromToken = (req, res) => {
+    const header = req.headers['authorization'];
+    const bearer = header.split(' ');
+    const token = bearer[1];
+    let varijabilna = jwt.verify(token, 'customer', (err, authorizedData) => {
+        return authorizedData.user
+    });
+    return varijabilna
+};
 loginRole = (user, employee, customer, pass) => {
     if (employee.length != 0) {
         user = employee;
@@ -72,7 +81,7 @@ loginRole = (user, employee, customer, pass) => {
     let role = Object.keys(user)[0].split('_');
     const matchPass = bcrypt.compareSync(pass, user.password);
     if (matchPass) {
-        var token = jwt.sign({ user }, 'customer', { expiresIn: '24h' });
+        var token = jwt.sign({ user }, 'customer', { expiresIn: '48h' });
         current = {
             role: role[0],
             token: token
@@ -100,13 +109,40 @@ accCusJoinJSON = (obj) => {
         temp = {
             customerId: e.customerId,
             accounts: accounts
-        }        
+        }
         arr.push(temp)
     });
     obj.forEach((x, i) => {
         var temp = new Account(x);
         temp = temp.accNumber()
         arr[i].accounts.push(temp);
+    });
+    return arr
+};
+BankStatementJSON = (obj, name, surname) => {
+    let arr = [];
+    let outFlow = [];
+    let inFlow = [];
+    obj.forEach(e => {
+        temp = {
+            name: name,
+            surname: surname,
+            accountId: e.accountId,
+            for_day: e.transaction_madeOn,
+            outflow: outFlow,
+            inflow: inFlow
+        }
+        arr.push(temp)
+    });
+    obj.forEach((x, i) => {
+        if (x.Otflow != 0) {
+            arr[i].outflow.push(x.Otflow);
+        }
+    });
+    obj.forEach((x, i) => {
+        if (x.Inflow != 0) {
+            arr[i].inflow.push(x.Inflow);
+        }
     });
     return arr
 }
@@ -116,6 +152,8 @@ module.exports = {
     loginRole,
     emailFromToken,
     transactionJSON,
-    idFromToken,
-    accCusJoinJSON
+    
+    accCusJoinJSON,
+    BankStatementJSON,
+    dataFromToken
 }

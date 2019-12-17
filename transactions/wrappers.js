@@ -40,9 +40,23 @@ sumTransactionQuery = (id) => {
         });
     });
 };
+bankStatementQuery = (id)=>{
+    const query = 'SELECT transaction.*,(CASE WHEN transaction_amount<0 THEN transaction_amount ELSE 0 END) AS Otflow,(CASE WHEN transaction_amount>=0 THEN transaction_amount ELSE 0 END) AS Inflow FROM transaction WHERE DATE(transaction_madeOn) = DATE(NOW()) AND customerId = ?;';
+    return new Promise((resolve, reject) => {
+        connect.query(query, [id], (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(results);
+            }
+        });
+    })
+};
 module.exports = {
     allTransactionsQuery,
     sumTransactionQuery,
     insertTransactionQuery,
-    sumTransactionQuery
+    sumTransactionQuery,
+    bankStatementQuery
 }
