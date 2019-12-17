@@ -152,7 +152,7 @@ module.exports = {
     loginRole,
     emailFromToken,
     transactionJSON,
-    
+    idFromToken,
     accCusJoinJSON,
     BankStatementJSON,
     dataFromToken
