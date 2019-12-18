@@ -15,8 +15,8 @@ class Account {
         }
         return temp
     };
-    accNumber(){
-        let temp ={
+    accNumber() {
+        let temp = {
             accountId: this.obj.account_id,
             account_number: this.obj.account_number,
         }
@@ -37,7 +37,10 @@ class Customer {
     customerToShow() {
         let temp = {
             name: this.customers.name,
-            surname: this.customers.surname
+            surname: this.customers.surname,
+            city: this.customers.city,
+            adress: this.customers.adress,
+            email: this.customers.email,
         }
         return temp
     };
@@ -65,7 +68,7 @@ class Transaction {
             this.transaction_amount = transactions.transaction_amount;
         this.transaction_madeOn = transactions.transaction_madeOn;
         this.accountId = transactions.accountId,
-        this.customerId = transactions.customerId
+            this.customerId = transactions.customerId
     };
     TransactionToShow() {
         let temp = {
@@ -75,7 +78,6 @@ class Transaction {
         return temp
     };
 };
-
 module.exports = {
     Account,
     Customer,

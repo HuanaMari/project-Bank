@@ -1,5 +1,4 @@
 const accounts = require('./wrapers');
-const { Account, Customer, Loan, Transaction } = require('../models');
 const { sumTransactionQuery } = require('../transactions/wrappers');
 const { jsonJoin, accCusJoinJSON } = require('../helpers');
 
@@ -19,15 +18,6 @@ getAllAccounts = async (req, res) => {
     catch (error) {
         res.status(500).json(error.message);
 
-    }
-};
-getAccByBalance = async (req, res) => {
-    try {
-        let allAccByBalance = await accounts.getSpecificAccountByBalanceQuery(req.body.balance);
-        res.status(200).send(allAccByBalance);
-    }
-    catch (error) {
-        res.status(500).send(error.message);
     }
 };
 getAccWithCustomerAndTrans = async (req, res, next) => {
@@ -64,10 +54,8 @@ getAccForSpecCustomer = async (req, res, next) => {
         }
     }
 };
-
 module.exports = {
     getAllAccounts,
-    getAccByBalance,
     createAccount,
     getAccWithCustomerAndTrans,
     getAccForSpecCustomer

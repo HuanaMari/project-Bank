@@ -2,15 +2,18 @@ const { getAllCustomersQuery, createCustomerQuery, getCustomerByEmailQuery,
     updatingCustomerDataQuery, getSpecCustomerWithAccQuery } = require('./wrappers');
 const { getEmployeeByEmailQuery } = require('../employee/wrappers');
 const { Customer, Loan, Account } = require('../models');
-const { jsonCustomerAccounts ,dataFromToken} = require('../helpers');
+const { jsonCustomerAccounts, dataFromToken } = require('../helpers');
 const { loginRole } = require('../helpers');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
 getAllCustomers = async (req, res) => {
     try {
-        let allCus = await getAllCustomersQuery();
-        let customer = new Customer(allCus)
+        let allCustomers= await getAllCustomersQuery();
+        let customer = allCustomers.map(elem => {
+           var element =  new Customer(elem)
+           return element.customerToShow()
+        });
         res.status(200).send(customer);
     }
     catch (error) {
@@ -31,7 +34,7 @@ createCustomer = async (req, res) => {
 updateCustomer = async (req, res) => {
     let customerReq = req.body
     let reqData = dataFromToken(req);
-    let email= reqData.email
+    let email = reqData.email
     const pass = req.body.password
     try {
         const passHash = bcrypt.hashSync(pass, 5)
@@ -39,19 +42,18 @@ updateCustomer = async (req, res) => {
         res.status(202).send('Customer data has been updated')
     }
     catch (error) {
-        res.status(500).json(error.message)
+        res.status(500).json({message:'check your inputs'})
     }
 };
 getSpecCustomerWithAcc = async (req, res) => {
     let reqData = dataFromToken(req);
-    let email= reqData.email
+    let email = reqData.email
     try {
         let reqCustomer = await getSpecCustomerWithAccQuery(email);
-        console.log(reqCustomer)
         let customer = jsonCustomerAccounts(reqCustomer);
         res.status(201).send(customer[0]);
     } catch (error) {
-        res.status(500).send(error.message)
+        res.status(500).json(error.message)
     };
 };
 login = async (req, res) => {

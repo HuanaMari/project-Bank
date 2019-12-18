@@ -6,12 +6,11 @@ const { checkToken, verifyToken, checkEmployeeAuth, checkCustomerAuth } = requir
 let routes = express.Router();
 var cus = "customer"
 
-routes.get('/' + cus, [checkToken, verifyToken, checkEmployeeAuth], getAllCustomers);
-routes.post('/'+ cus, checkToken, verifyToken, emailValidator, passwordValidator, createCustomer);
-routes.get('/' + cus + '/accounts', checkToken, verifyToken, getSpecCustomerWithAcc);
+routes.get('/' + cus, checkToken, verifyToken, checkEmployeeAuth, getAllCustomers);
+routes.post('/'+ cus, checkToken, verifyToken, emailValidator, passwordValidator,checkEmployeeAuth ,createCustomer);
+routes.get('/' + cus + '/accounts', checkToken, verifyToken,checkCustomerAuth, getSpecCustomerWithAcc);
 routes.put('/' + cus + '/data', checkToken, verifyToken, checkCustomerAuth,
     emailValidator, passwordValidator, updateCustomer);
 routes.post('/login', login);
-
 
 module.exports = routes

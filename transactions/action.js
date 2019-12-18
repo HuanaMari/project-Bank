@@ -71,8 +71,7 @@ bankStatement = async (req, res, next) => {
     catch (error) {
         res.status(500).json(error.message);
     }
-}
-
+};
 module.exports = {
     allTransactions,
     sumTransactions,

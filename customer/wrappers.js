@@ -14,8 +14,7 @@ getAllCustomersQuery = () => {
     });
 };
 createCustomerQuery = (customer, password) => {
-    const query = 'INSERT INTO customer(name, surname, city, adress, email, username, password)\
-    VALUES(?,?,?,?,?,?,?';
+    const query = 'INSERT INTO customer(name, surname, city, adress, email, username, password) VALUES(?,?,?,?,?,?,?';
     return new Promise((resolve, reject) => {
         connect.query(query, [customer.name, customer.surname, customer.city, customer.adress, customer.email, customer.username, password], (error, results, fields) => {
             if (error) {
@@ -66,8 +65,6 @@ getSpecCustomerWithAccQuery = (email) => {
         });
     });
 };
-
-
 module.exports = {
     getAllCustomersQuery,
     createCustomerQuery,

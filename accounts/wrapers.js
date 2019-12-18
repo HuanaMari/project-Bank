@@ -13,20 +13,6 @@ getAllAccountsQuery = () => {
         });
     });
 };
-getSpecificAccountByBalanceQuery = (balance) => {
-    const query = 'SELECT * FROM account JOIN customer ON account_id = customer.accountId\
-     JOIN loan ON customer.customer_id = loan.customerId WHERE account.balance < ?;';
-    return new Promise((resolve, reject) => {
-        connect.query(query, [balance], (error, results, fields) => {
-            if (error) {
-                reject(error);
-            }
-            else {
-                resolve(results);
-            }
-        });
-    });
-};
 createAccountQuery = (account) => {
     const query = 'INSERT INTO account (account_number,createdOn,balance,branchId,customerId)\
     VALUES (FLOOR(30012346789 + RAND() * 3000000 ),now(),?,?,?);';
@@ -83,10 +69,9 @@ getAccountBallanceQuery = (id) => {
             }
         });
     });
-}
+};
 module.exports = {
     getAllAccountsQuery,
-    getSpecificAccountByBalanceQuery,
     createAccountQuery,
     getAccountWithCustomerAndTransactionsQuery,
     getAccForSpecCustomerQuery,
