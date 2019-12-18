@@ -42,8 +42,20 @@ getAccountWithCustomerAndTransactionsQuery = (account) => {
             }
         });
     });
-
-
+};
+getJoineDataForAccByEmailQuery = (email) => {
+    const query = 'SELECT * FROM customer JOIN account ON customer.customer_id = account.customerId \
+    LEFT JOIN transaction ON transaction.accountId=account.account_id WHERE customer.email=?;';
+    return new Promise((resolve, reject) => {
+        connect.query(query, [email], (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(results);
+            }
+        });
+    });
 };
 getAccForSpecCustomerQuery = (customerId) => {
     const query = 'SELECT * FROM account WHERE customerId=?;';
@@ -75,5 +87,6 @@ module.exports = {
     createAccountQuery,
     getAccountWithCustomerAndTransactionsQuery,
     getAccForSpecCustomerQuery,
-    getAccountBallanceQuery
+    getAccountBallanceQuery,
+    getJoineDataForAccByEmailQuery
 }

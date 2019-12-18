@@ -1,6 +1,6 @@
 const accounts = require('./wrapers');
 const { sumTransactionQuery } = require('../transactions/wrappers');
-const { jsonJoin, accCusJoinJSON } = require('../helpers');
+const { dataFromToken,jsonJoin, accCusJoinJSON } = require('../helpers');
 
 createAccount = async (req, res) => {
     try {
@@ -17,13 +17,32 @@ getAllAccounts = async (req, res) => {
     }
     catch (error) {
         res.status(500).json(error.message);
-
     }
 };
 getAccWithCustomerAndTrans = async (req, res, next) => {
     try {
         let sumAmount = await sumTransactionQuery(req.params.account);
         let join = await accounts.getAccountWithCustomerAndTransactionsQuery(req.params.account);
+        if (join.length === 0) {
+            var error = new Error('This account does not exist');
+            error.status = 402;
+            next(error);
+        } else {
+            let dbAccount = join[0];
+            var newBalance = dbAccount.balance + sumAmount[0].Total;
+            let data = jsonJoin(join, newBalance);
+            res.status(200).send(data[0]);
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+getJoineData = async (req, res, next) => {
+    let data = dataFromToken(req);
+    let email = data.email;
+    try {
+        let sumAmount = await sumTransactionQuery(data.customer_id);
+        let join = await accounts.getJoineDataForAccByEmailQuery(email);
         if (join.length === 0) {
             var error = new Error('This account does not exist');
             error.status = 402;
@@ -58,5 +77,6 @@ module.exports = {
     getAllAccounts,
     createAccount,
     getAccWithCustomerAndTrans,
-    getAccForSpecCustomer
+    getAccForSpecCustomer,
+    getJoineData
 }
