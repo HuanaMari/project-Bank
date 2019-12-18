@@ -119,6 +119,16 @@ accCusJoinJSON = (obj) => {
     });
     return arr
 };
+sumOutInflow = (obj) => {
+    this.obj = obj[0]
+    let ouflow = Object.values(this.obj)[0]
+    let inflow = Object.values(this.obj)[1]
+    let temp = {
+        Total_ouflow:ouflow,
+        Total_inflow:inflow,
+    }
+    return temp
+};
 BankStatementJSON = (obj, name, surname) => {
     let arr = [];
     let outFlow = [];
@@ -145,7 +155,7 @@ BankStatementJSON = (obj, name, surname) => {
         }
     });
     return arr
-}
+};
 module.exports = {
     jsonJoin,
     jsonCustomerAccounts,
@@ -155,5 +165,6 @@ module.exports = {
     idFromToken,
     accCusJoinJSON,
     BankStatementJSON,
-    dataFromToken
+    dataFromToken,
+    sumOutInflow
 }

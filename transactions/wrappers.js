@@ -17,7 +17,7 @@ insertTransactionQuery = (transaction) => {
     const query = ' INSERT INTO transaction (transaction_amount,transaction_madeOn,accountId,customerId)\
      VALUES(?,now(),?,?); '
     return new Promise((resolve, reject) => {
-        connect.query(query, [transaction.transaction_amount, transaction.accountId,transaction.customerId], (error, results, fields) => {
+        connect.query(query, [transaction.transaction_amount, transaction.accountId, transaction.customerId], (error, results, fields) => {
             if (error) {
                 reject(error);
             }
@@ -28,7 +28,7 @@ insertTransactionQuery = (transaction) => {
     });
 };
 sumTransactionQuery = (id) => {
-    const query = 'SELECT SUM(transaction_amount) as Total FROM transaction WHERE accountId=?;';
+    const query = 'SELECT SUM(transaction_amount) as Total FROM transaction WHERE customerId=?;';
     return new Promise((resolve, reject) => {
         connect.query(query, [id], (error, results, fields) => {
             if (error) {
@@ -40,8 +40,21 @@ sumTransactionQuery = (id) => {
         });
     });
 };
-bankStatementQuery = (id)=>{
-    const query = 'SELECT transaction.*,(CASE WHEN transaction_amount<0 THEN transaction_amount ELSE 0 END) AS Otflow,(CASE WHEN transaction_amount>=0 THEN transaction_amount ELSE 0 END) AS Inflow FROM transaction WHERE DATE(transaction_madeOn) = DATE(NOW()) AND customerId = ?;';
+SumInflowAndOtflowQuery = (id) => {
+    const query = 'SELECT SUM(CASE WHEN transaction_amount<0 THEN transaction_amount ELSE 0 END) AS Outflow,SUM(CASE WHEN transaction_amount>=0 THEN transaction_amount ELSE 0 END) AS Inflow FROM transaction WHERE DATE(transaction_madeOn) = DATE(NOW()- INTERVAL 1 DAY) AND customerId = ?;';
+    return new Promise((resolve, reject) => {
+        connect.query(query, [id], (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(results);
+            }
+        });
+    })
+};
+bankStatementQuery = (id) => {
+    const query = 'SELECT transaction.*,(CASE WHEN transaction_amount<0 THEN transaction_amount ELSE 0 END) AS Otflow,(CASE WHEN transaction_amount>=0 THEN transaction_amount ELSE 0 END) AS Inflow FROM transaction WHERE DATE(transaction_madeOn) = DATE(NOW()- INTERVAL 1 DAY) AND customerId = ?;';
     return new Promise((resolve, reject) => {
         connect.query(query, [id], (error, results, fields) => {
             if (error) {
@@ -58,5 +71,6 @@ module.exports = {
     sumTransactionQuery,
     insertTransactionQuery,
     sumTransactionQuery,
+    SumInflowAndOtflowQuery,
     bankStatementQuery
 }

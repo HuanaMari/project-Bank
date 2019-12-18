@@ -67,11 +67,12 @@ getSpecCustomerWithAccQuery = (email) => {
     });
 };
 
+
 module.exports = {
     getAllCustomersQuery,
     createCustomerQuery,
     getCustomerByEmailQuery,
     updatingCustomerDataQuery,
     getCustomerByEmailQuery,
-    getSpecCustomerWithAccQuery
+    getSpecCustomerWithAccQuery,
 }

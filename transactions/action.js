@@ -1,6 +1,7 @@
-const { sumTransactionQuery, insertTransactionQuery, allTransactionsQuery, bankStatementQuery } = require('./wrappers');
-const { dataFromToken,BankStatementJSON,idFromToken } = require('../helpers');
-const {Transaction}=require('../models')
+const { sumTransactionQuery, insertTransactionQuery, allTransactionsQuery, SumInflowAndOtflowQuery, bankStatementQuery } = require('./wrappers');
+const { dataFromToken, BankStatementJSON, idFromToken, sumOutInflow } = require('../helpers');
+const { getAccountBallanceQuery } = require('../accounts/wrapers')
+const { Transaction } = require('../models')
 
 allTransactions = async (req, res, next) => {
     try {
@@ -12,19 +13,22 @@ allTransactions = async (req, res, next) => {
     }
 };
 sumTransactions = async (req, res, next) => {
+    let cus = dataFromToken(req);
+    let id = cus.customer_id
     try {
-        let sum = await sumTransactionQuery(req.params.id);
+        let sum = await sumTransactionQuery(id);
         res.status(200).send(sum);
     }
     catch (error) {
-        res.status(500).send(error.message);
+        res.status(500).json(error.message);
     }
 };
 insertTransaction = async (req, res, next) => {
     let amount = req.body.transaction_amount;
     customerId = req.body.customerId;
-    let cus = idFromToken(req);
-    if (cus != customerId) {
+    let cus = dataFromToken(req);
+    let id = cus.customer_id
+    if (id != customerId) {
         var error = new Error('you can not make transaction for this account');
         error.status = 402;
         next(error);
@@ -43,22 +47,30 @@ insertTransaction = async (req, res, next) => {
     } else {
         try {
             await insertTransactionQuery(req.body);
-            res.status(200).send(`Inserted ${req.body.transaction_amount} $`);
+            res.status(200).json(`Inserted ${req.body.transaction_amount} $`);
         }
         catch (error) {
-            res.status(500).send(error.message)
+            res.status(500).json(error.message)
         }
     }
 };
 bankStatement = async (req, res, next) => {
     let cus = dataFromToken(req);
+    let id = cus.customer_id
     try {
-        let reqStatement = await bankStatementQuery(cus.customer_id);
-        let ccc = BankStatementJSON(reqStatement,cus.name,cus.surname);
-         res.status(200).send(ccc[0]);
+        let balance = await getAccountBallanceQuery(id);
+        let sumA = await sumTransactionQuery(id)
+        let new_Balance = balance[0].balance + sumA[0].Total
+        let iNandOut = await SumInflowAndOtflowQuery(id);
+        let total = sumOutInflow(iNandOut);
+        let reqStatement = await bankStatementQuery(id);
+        let statement = BankStatementJSON(reqStatement, cus.name, cus.surname);
+        statement[0].total = total
+        statement[0].new_Balance = new_Balance
+        res.status(200).send(statement[0]);
     }
     catch (error) {
-        res.status(500).send(error.message);
+        res.status(500).json(error.message);
     }
 }
 

@@ -45,6 +45,7 @@ getSpecCustomerWithAcc = async (req, res) => {
     let email = emailFromToken(req);
     try {
         let reqCustomer = await getSpecCustomerWithAccQuery(email);
+        console.log(reqCustomer)
         let customer = jsonCustomerAccounts(reqCustomer);
         res.status(201).send(customer[0]);
     } catch (error) {

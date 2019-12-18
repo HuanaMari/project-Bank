@@ -72,10 +72,24 @@ getAccForSpecCustomerQuery = (customerId) => {
         });
     });
 };
+getAccountBallanceQuery = (id) => {
+    const query = 'SELECT account.balance FROM account WHERE customerId= ?;';
+    return new Promise((resolve, reject) => {
+        connect.query(query,[id], (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(results);
+            }
+        });
+    });
+}
 module.exports = {
     getAllAccountsQuery,
     getSpecificAccountByBalanceQuery,
     createAccountQuery,
     getAccountWithCustomerAndTransactionsQuery,
-    getAccForSpecCustomerQuery
+    getAccForSpecCustomerQuery,
+    getAccountBallanceQuery
 }
