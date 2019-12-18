@@ -1,6 +1,6 @@
 const { getAllLoansQuery, createLoanQuery, getLoanWithAllDataQuery } = require('./wrappers');
 const { sumTransactionQuery } = require('../transactions/wrappers');
-const { emailFromToken, transactionJSON } = require('../helpers');
+const { dataFromToken, transactionJSON } = require('../helpers');
 const { Account, Customer, Loan, Transaction } = require('../models');
 
 getAllLoans = async (req, res) => {
@@ -23,7 +23,8 @@ createLoan = async (req, res, next) => {
     }
 };
 getLoanWithAllData = async (req, res, next) => {
-    let email = emailFromToken(req);
+    let reqData = dataFromToken(req);
+    let email= reqData.email
     try {
         let results = await getLoanWithAllDataQuery(email);
         if(results.length === 0){

@@ -1,6 +1,5 @@
 const connect = require('../database');
 
-
 getAllAccountsQuery = () => {
     const query = 'SELECT *FROM account';
     return new Promise((resolve, reject) => {

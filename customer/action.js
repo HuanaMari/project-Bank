@@ -2,7 +2,7 @@ const { getAllCustomersQuery, createCustomerQuery, getCustomerByEmailQuery,
     updatingCustomerDataQuery, getSpecCustomerWithAccQuery } = require('./wrappers');
 const { getEmployeeByEmailQuery } = require('../employee/wrappers');
 const { Customer, Loan, Account } = require('../models');
-const { jsonCustomerAccounts, emailFromToken } = require('../helpers');
+const { jsonCustomerAccounts ,dataFromToken} = require('../helpers');
 const { loginRole } = require('../helpers');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
@@ -30,7 +30,8 @@ createCustomer = async (req, res) => {
 };
 updateCustomer = async (req, res) => {
     let customerReq = req.body
-    let email = emailFromToken(req);
+    let reqData = dataFromToken(req);
+    let email= reqData.email
     const pass = req.body.password
     try {
         const passHash = bcrypt.hashSync(pass, 5)
@@ -42,7 +43,8 @@ updateCustomer = async (req, res) => {
     }
 };
 getSpecCustomerWithAcc = async (req, res) => {
-    let email = emailFromToken(req);
+    let reqData = dataFromToken(req);
+    let email= reqData.email
     try {
         let reqCustomer = await getSpecCustomerWithAccQuery(email);
         console.log(reqCustomer)

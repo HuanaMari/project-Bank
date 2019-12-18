@@ -2,6 +2,39 @@ var jwt = require('jsonwebtoken');
 const { Transaction, Account } = require('./models')
 var bcrypt = require('bcryptjs');
 
+dataFromToken = (req, res) => {
+    const header = req.headers['authorization'];
+    const bearer = header.split(' ');
+    const token = bearer[1];
+    let varijabilna = jwt.verify(token, 'customer', (err, authorizedData) => {
+        return authorizedData.user
+    });
+    return varijabilna
+};
+loginRole = (user, employee, customer, pass) => {
+    if (employee.length != 0) {
+        user = employee;
+    } else if (customer.length != 0) {
+        user = customer
+    } else {
+        var error = new Error("Invalid email or password");
+        error.status = 404;
+        return error.message
+    };
+    user = user[0];
+    let role = Object.keys(user)[0].split('_');
+    const matchPass = bcrypt.compareSync(pass, user.password);
+    if (matchPass) {
+        var token = jwt.sign({ user }, 'customer', { expiresIn: '48h' });
+        current = {
+            role: role[0],
+            token: token
+        }
+        return current
+    } else {
+        return "password you entered is incorect"
+    }
+};
 jsonJoin = (obj, balance) => {
     let arr = [];
     let transactions = [];
@@ -39,57 +72,6 @@ jsonCustomerAccounts = (obj) => {
         arr[i].Accounts.push(x.account_number);
     });
     return arr
-};
-emailFromToken = (req, res) => {
-    const header = req.headers['authorization'];
-    const bearer = header.split(' ');
-    const token = bearer[1];
-    let varijabilna = jwt.verify(token, 'customer', (err, authorizedData) => {
-        return authorizedData.user.email
-    });
-    return varijabilna
-};
-idFromToken = (req, res) => {
-    const header = req.headers['authorization'];
-    const bearer = header.split(' ');
-    const token = bearer[1];
-    let varijabilna = jwt.verify(token, 'customer', (err, authorizedData) => {
-        return authorizedData.user.customer_id
-    });
-    return varijabilna
-};
-dataFromToken = (req, res) => {
-    const header = req.headers['authorization'];
-    const bearer = header.split(' ');
-    const token = bearer[1];
-    let varijabilna = jwt.verify(token, 'customer', (err, authorizedData) => {
-        return authorizedData.user
-    });
-    return varijabilna
-};
-loginRole = (user, employee, customer, pass) => {
-    if (employee.length != 0) {
-        user = employee;
-    } else if (customer.length != 0) {
-        user = customer
-    } else {
-        var error = new Error("Invalid email or password");
-        error.status = 404;
-        return error.message
-    };
-    user = user[0];
-    let role = Object.keys(user)[0].split('_');
-    const matchPass = bcrypt.compareSync(pass, user.password);
-    if (matchPass) {
-        var token = jwt.sign({ user }, 'customer', { expiresIn: '48h' });
-        current = {
-            role: role[0],
-            token: token
-        }
-        return current
-    } else {
-        return "password you entered is incorect"
-    }
 };
 transactionJSON = (transactions) => {
     let arr = []
@@ -160,9 +142,7 @@ module.exports = {
     jsonJoin,
     jsonCustomerAccounts,
     loginRole,
-    emailFromToken,
     transactionJSON,
-    idFromToken,
     accCusJoinJSON,
     BankStatementJSON,
     dataFromToken,

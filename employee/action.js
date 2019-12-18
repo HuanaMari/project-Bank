@@ -1,5 +1,5 @@
 const { getAllEmployeesQuery, updateEmployeeDataQuery,getEmployeeByEmailQuery } = require('./wrappers');
-const{emailFromToken}=require('../helpers')
+const{dataFromToken}=require('../helpers')
 var bcrypt = require('bcryptjs');
 
 getAllEmployees = async (req, res) => {
@@ -14,7 +14,8 @@ getAllEmployees = async (req, res) => {
 updateEmployeeData = async (req, res) => {
     let employeeReq = req.body
     const pass = req.body.password
-    let email = emailFromToken(req);
+    let reqData = dataFromToken(req);
+    let email= reqData.email
     try {
         const passHash = bcrypt.hashSync(pass, 5)
         await updateEmployeeDataQuery(email,employeeReq, passHash);

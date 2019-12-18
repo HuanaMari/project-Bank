@@ -1,7 +1,6 @@
 const { sumTransactionQuery, insertTransactionQuery, allTransactionsQuery, SumInflowAndOtflowQuery, bankStatementQuery } = require('./wrappers');
-const { dataFromToken, BankStatementJSON, idFromToken, sumOutInflow } = require('../helpers');
+const { dataFromToken, BankStatementJSON, sumOutInflow } = require('../helpers');
 const { getAccountBallanceQuery } = require('../accounts/wrapers')
-const { Transaction } = require('../models')
 
 allTransactions = async (req, res, next) => {
     try {
