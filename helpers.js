@@ -1,5 +1,6 @@
 var jwt = require('jsonwebtoken');
-const { Transaction, Account } = require('./models')
+const { Transaction, Account } = require('./models');
+
 var bcrypt = require('bcryptjs');
 
 dataFromToken = (req, res) => {
@@ -102,12 +103,11 @@ accCusJoinJSON = (obj) => {
     return arr
 };
 sumOutInflow = (obj) => {
-    this.obj = obj[0]
-    let ouflow = Object.values(this.obj)[0]
-    let inflow = Object.values(this.obj)[1]
+    let ouflow = Object.values(obj)[0]
+    let inflow = Object.values(obj)[1]
     let temp = {
-        Total_ouflow:ouflow,
-        Total_inflow:inflow,
+        Total_ouflow: ouflow,
+        Total_inflow: inflow,
     }
     return temp
 };
@@ -138,6 +138,42 @@ BankStatementJSON = (obj, name, surname) => {
     });
     return arr
 };
+instalments = (obj) => {
+    let arr = [];
+    let rata = [];
+    var sumOfTransactions = 0
+
+    obj.forEach((y, i) => {
+        if (y.Instalments < 0) {
+            temp = {
+                Instalments: y.Instalments,
+                transaction_madeOn: y.transaction_madeOn
+            }
+            rata.push(temp)
+            sumOfTransactions += y.Instalments
+        }
+    });
+    obj.forEach((x) => {
+        temp = {
+            borrowedOn: x.borrowedOn,
+            amount: x.amount,
+            name: x.name,
+            surname: x.surname,
+            account_id: x.account_id,
+            account_number: x.account_number,
+            instalments: rata,
+            Remains: x.amount + sumOfTransactions
+        }
+        arr.push(temp)
+    });
+
+
+    // const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    // let sum = transactions.reduce(reducer)
+
+    // console.log(sum)
+    return arr
+}
 module.exports = {
     jsonJoin,
     jsonCustomerAccounts,
@@ -146,5 +182,6 @@ module.exports = {
     accCusJoinJSON,
     BankStatementJSON,
     dataFromToken,
-    sumOutInflow
+    sumOutInflow,
+    instalments
 }
