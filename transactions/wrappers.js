@@ -17,7 +17,7 @@ insertTransactionQuery = (transaction) => {
     const query = ' INSERT INTO transaction (transaction_amount,transaction_madeOn,accountId,customerId,loanId)\
      VALUES(?,CURDATE(),?,?,?); '
     return new Promise((resolve, reject) => {
-        connect.query(query, [transaction.transaction_amount, transaction.accountId, transaction.customerId], (error, results, fields) => {
+        connect.query(query, [transaction.transaction_amount, transaction.accountId, transaction.customerId,transaction.loanId], (error, results, fields) => {
             if (error) {
                 reject(error);
             }

@@ -5,7 +5,7 @@ const { dataFromToken,jsonJoin, accCusJoinJSON } = require('../helpers');
 createAccount = async (req, res) => {
     try {
         let account = await accounts.createAccountQuery(req.body)
-        res.status(201).send(account)
+        res.status(201).send("account has been created")
     } catch (error) {
         res.status(500).json(error.message)
     }

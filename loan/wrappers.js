@@ -13,10 +13,10 @@ getAllLoansQuery = () => {
         });
     });
 };
-createLoanQuery = (loan) => {
+createLoanQuery = (loan,employeeId) => {
     const query = 'INSERT INTO loan (borrowedOn,amount,accountId,customerId,employeeId) VALUES (now(),?,?,?,?)';
     return new Promise((resolve, reject) => {
-        connect.query(query, [loan.amount, loan.accountId, loan.customerId, loan.employeeId], (error, results, fields) => {
+        connect.query(query, [loan.amount, loan.accountId, loan.customerId, employeeId], (error, results, fields) => {
             if (error) {
                 // let split = error.sqlMessage.split(' ')
                 // error.message = `That ${split[17]} does not exist!!!`

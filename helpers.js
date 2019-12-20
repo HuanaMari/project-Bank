@@ -117,7 +117,6 @@ BankStatementJSON = (obj) => {
     let sumOut = 0
     let sumIn = 0
 
-
     obj.forEach(e => {
         temp = {
             name: e.name,

@@ -12,9 +12,11 @@ getAllLoans = async (req, res) => {
     }
 };
 createLoan = async (req, res, next) => {
+    let ff =dataFromToken(req)
+    let employeeId = ff.employee_id
     let loan = req.body
     try {
-        await createLoanQuery(loan);
+        await createLoanQuery(loan,employeeId);
         res.status(200).send('Loan has been recorded');
     } catch (error) {
         res.status(500).json({ message: "Check your inputs" });
