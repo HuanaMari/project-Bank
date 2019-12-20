@@ -1,4 +1,4 @@
-const { sumTransactionQuery, insertTransactionQuery, allTransactionsQuery, SumInflowAndOtflowQuery, bankStatementQuery } = require('./wrappers');
+const {  bankStatementCustomerQuery,sumTransactionQuery, insertTransactionQuery, allTransactionsQuery, SumInflowAndOtflowQuery, bankStatementQuery } = require('./wrappers');
 const { dataFromToken, BankStatementJSON, sumOutInflow } = require('../helpers');
 const { getAccountBallanceQuery } = require('../accounts/wrapers')
 
@@ -42,27 +42,41 @@ insertTransaction = async (req, res, next) => {
         }
     }
 };
-bankStatement = async (req, res, next) => {
-    let cus = dataFromToken(req);
-    let id = cus.customer_id
+bankStatement = async (req, res) => {
+    let date = req.body.date
+    let account =req.body.account
     try {
-        let balance = await getAccountBallanceQuery(id);
-        let sumA = await sumTransactionQuery(id)
-        let new_Balance = balance[0].balance + sumA[0].Total
-        let iNandOut = await SumInflowAndOtflowQuery(id);
-        let total = sumOutInflow(iNandOut);
-        let reqStatement = await bankStatementQuery(id);
-        let statement = BankStatementJSON(reqStatement, cus.name, cus.surname);
-        statement[0].total = total
-        statement[0].new_Balance = new_Balance
-        res.status(200).send(statement[0]);
+        let sum = await bankStatementQuery(date,account);
+        let prikaz = BankStatementJSON(sum,date)
+        let db = [prikaz[0]]
+        db.date={DATE:date}
+        let arr = [db.date,...db]
+        res.status(200).send(arr);
     }
     catch (error) {
-        res.status(500).json(error.message);
+        res.status(500).send(error.message);
+    }
+};
+bankStatementCustomer = async (req, res) => {
+    let date = req.body.date
+    let reqEmail = dataFromToken(req)
+    let email = reqEmail.email
+    let account =req.body.account
+    try {
+        let sum = await bankStatementCustomerQuery(date,account,email);
+        let prikaz = BankStatementJSON(sum,date)
+        let db = [prikaz[0]]
+        db.date={DATE:date}
+        let arr = [db.date,...db]
+        res.status(200).send(arr);
+    }
+    catch (error) {
+        res.status(500).send(error.message);
     }
 };
 module.exports = {
     allTransactions,
     insertTransaction,
-    bankStatement
+    bankStatement,
+    bankStatementCustomer
 }

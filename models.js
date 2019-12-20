@@ -31,7 +31,6 @@ class Customer {
             this.city = customers.city,
             this.adress = customers.adress,
             this.email = customers.email,
-            this.username = customers.username,
             this.password = customers.password
     };
     customerToShow() {
@@ -68,7 +67,8 @@ class Transaction {
             this.transaction_amount = transactions.transaction_amount;
         this.transaction_madeOn = transactions.transaction_madeOn;
         this.accountId = transactions.accountId,
-            this.customerId = transactions.customerId
+            this.customerId = transactions.customerId,
+            this.loanId = transactions.loanId
     };
     TransactionToShow() {
         let temp = {

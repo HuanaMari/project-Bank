@@ -2,8 +2,10 @@ const express = require('express');
 const { emailValidator, passwordValidator } = require('../middleware/validators');
 const { getAllCustomers, createCustomer, updateCustomer, getSpecCustomerWithAcc, login } = require('./action');
 const { checkToken, verifyToken, checkEmployeeAuth, checkCustomerAuth } = require('../middleware/authentication');
+
 let employeeAuth = [checkToken, verifyToken, checkEmployeeAuth];
 let customerAuth = [checkToken, verifyToken, checkCustomerAuth];
+
 let routes = express.Router();
 var cus = "customer"
 

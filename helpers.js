@@ -25,7 +25,7 @@ loginRole = (user, employee, customer, pass) => {
     let role = Object.keys(user)[0].split('_');
     const matchPass = bcrypt.compareSync(pass, user.password);
     if (matchPass) {
-        var token = jwt.sign({ user }, 'customer', { expiresIn: '48h' });
+        var token = jwt.sign({ user }, 'customer', { expiresIn: '24h' });
         current = {
             role: role[0],
             token: token
@@ -110,31 +110,37 @@ sumOutInflow = (obj) => {
     }
     return temp
 };
-BankStatementJSON = (obj, name, surname) => {
+BankStatementJSON = (obj) => {
     let arr = [];
     let outFlow = [];
     let inFlow = [];
+    let sumOut = 0
+    let sumIn = 0
+
+
     obj.forEach(e => {
         temp = {
-            name: name,
-            surname: surname,
+            name: e.name,
+            surname: e.surname,
             accountId: e.accountId,
-            for_day: e.transaction_madeOn,
+            createdOn: e.createdOn,
             outflow: outFlow,
-            inflow: inFlow
+            inflow: inFlow,
+            old_Balance:e.balance,
+            total_Outflow: sumOut,
+            total_inFlow: sumIn,
+            new_Balance: 0
         }
         arr.push(temp)
     });
-    obj.forEach((x, i) => {
-        if (x.Otflow != 0) {
-            arr[i].outflow.push(x.Otflow);
-        }
-    });
-    obj.forEach((x, i) => {
-        if (x.Inflow != 0) {
-            arr[i].inflow.push(x.Inflow);
-        }
-    });
+            obj.forEach((x, i) => {
+                arr[0].outflow.push(x.Outflow);
+                arr[0].inflow.push(x.Inflow);
+                arr[0].total_Outflow += x.Outflow
+                arr[0].total_inFlow += x.Inflow
+            });
+
+            arr[0].new_Balance = arr[0].old_Balance +  (arr[0].total_Outflow + arr[0].total_inFlow)
     return arr
 };
 instalments = (obj) => {
