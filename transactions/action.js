@@ -11,17 +11,6 @@ allTransactions = async (req, res, next) => {
         res.status(500).send(error.message);
     }
 };
-sumTransactions = async (req, res, next) => {
-    let cus = dataFromToken(req);
-    let id = cus.customer_id
-    try {
-        let sum = await sumTransactionQuery(id);
-        res.status(200).send(sum);
-    }
-    catch (error) {
-        res.status(500).json(error.message);
-    }
-};
 insertTransaction = async (req, res, next) => {
     let amount = req.body.transaction_amount;
     customerId = req.body.customerId;
@@ -74,7 +63,6 @@ bankStatement = async (req, res, next) => {
 };
 module.exports = {
     allTransactions,
-    sumTransactions,
     insertTransaction,
     bankStatement
 }

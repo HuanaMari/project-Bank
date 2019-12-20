@@ -1,6 +1,5 @@
 var jwt = require('jsonwebtoken');
 const { Transaction, Account } = require('./models');
-
 var bcrypt = require('bcryptjs');
 
 dataFromToken = (req, res) => {
@@ -143,7 +142,7 @@ instalments = (obj) => {
     let rata = [];
     var sumOfTransactions = 0
 
-    obj.forEach((y, i) => {
+    obj.forEach(y => {
         if (y.Instalments < 0) {
             temp = {
                 Instalments: y.Instalments,
@@ -166,14 +165,8 @@ instalments = (obj) => {
         }
         arr.push(temp)
     });
-
-
-    // const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    // let sum = transactions.reduce(reducer)
-
-    // console.log(sum)
     return arr
-}
+};
 module.exports = {
     jsonJoin,
     jsonCustomerAccounts,
