@@ -40,34 +40,22 @@ getLoanWithAllDataQuery = (email) => {
         });
     });
 };
-// instalmentsQuery = (id) =>{
-//     const query = 'SELECT (CASE WHEN transaction_amount<0 THEN transaction_amount ELSE 0 END) AS Instalments FROM transaction WHERE customerId = ?;';
-//     return new Promise((resolve, reject) => {
-//         connect.query(query, [id], (error, results, fields) => {
-//             if (error) {
-//                 reject(error);
-//             }else {
-//                 resolve(results);
-//             }
-//         });
-//     });
-// };
-// sumInstalmentsQuery = (id) =>{
-//     const query = 'SELECT SUM(CASE WHEN transaction_amount<0 THEN transaction_amount ELSE 0 END) AS Total_Instalments FROM transaction WHERE customerId = ?;';
-//     return new Promise((resolve, reject) => {
-//         connect.query(query, [id], (error, results, fields) => {
-//             if (error) {
-//                 reject(error);
-//             }else {
-//                 resolve(results);
-//             }
-//         });
-//     });
-// };
+getLoanWithAllDataByIdQuery = (loanId) => {
+    const query = 'SELECT loan.borrowedOn,loan.amount,customer.name,customer.surname,account.account_id,account.account_number,(CASE WHEN transaction_amount<0 THEN transaction_amount ELSE 0 END) AS Instalments,transaction.transaction_madeOn FROM loan JOIN transaction on loan.accountId=transaction.accountId JOIN account on account.account_id = loan.accountId JOIN customer on customer.customer_id=account.customerId where loan.loan_id = ?;';
+    return new Promise((resolve, reject) => {
+        connect.query(query,[loanId], (error, results, fields) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+};
+
 module.exports = {
     getAllLoansQuery,
     createLoanQuery,
     getLoanWithAllDataQuery,
-    // instalmentsQuery,
-    // sumInstalmentsQuery
+    getLoanWithAllDataByIdQuery  
 }

@@ -1,6 +1,5 @@
-const {  bankStatementCustomerQuery,sumTransactionQuery, insertTransactionQuery, allTransactionsQuery, SumInflowAndOtflowQuery, bankStatementQuery } = require('./wrappers');
-const { dataFromToken, BankStatementJSON, sumOutInflow } = require('../helpers');
-const { getAccountBallanceQuery } = require('../accounts/wrapers')
+const {  bankStatementCustomerQuery, insertTransactionQuery, allTransactionsQuery, bankStatementQuery } = require('./wrappers');
+const { dataFromToken, BankStatementJSON} = require('../helpers');
 
 allTransactions = async (req, res, next) => {
     try {
