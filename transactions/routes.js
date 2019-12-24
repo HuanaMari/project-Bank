@@ -9,7 +9,7 @@ let routes = express.Router();
 var transactions = 'transactions';
 
 routes.post('/' + transactions + '/statement', employeeAuth,bankStatement);
-routes.post('/' + transactions + '/customer-statement',customerAuth, bankStatementCustomer);
+routes.get('/' + transactions + '/customer-statement',customerAuth, bankStatementCustomer);
 routes.get('/' + transactions, employeeAuth, allTransactions);
 routes.post('/' + transactions, customerAuth, insertTransaction);
 
