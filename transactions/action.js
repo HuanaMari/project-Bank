@@ -42,8 +42,8 @@ insertTransaction = async (req, res, next) => {
     }
 };
 bankStatement = async (req, res) => {
-    let date = req.params.date
-    let account =req.params.account
+    let date = req.body.date
+    let account =req.body.account
     try {
         let sum = await bankStatementQuery(date,account);
         let prikaz = BankStatementJSON(sum,date)

@@ -6,10 +6,10 @@ dataFromToken = (req, res) => {
     const header = req.headers['authorization'];
     const bearer = header.split(' ');
     const token = bearer[1];
-    let varijabilna = jwt.verify(token, 'customer', (err, authorizedData) => {
+    let results = jwt.verify(token, 'customer', (err, authorizedData) => {
         return authorizedData.user
     });
-    return varijabilna
+    return results
 };
 loginRole = (user, employee, customer, pass) => {
     if (employee.length != 0) {

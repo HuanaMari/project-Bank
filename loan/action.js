@@ -12,8 +12,8 @@ getAllLoans = async (req, res) => {
     }
 };
 createLoan = async (req, res, next) => {
-    let ff =dataFromToken(req)
-    let employeeId = ff.employee_id
+    let reqLoan =dataFromToken(req)
+    let employeeId = reqLoan.employee_id
     let loan = req.body
     try {
         await createLoanQuery(loan,employeeId);
